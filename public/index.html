@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SkyPlane SMP</title>
+<meta name="description" content="SkyPlane SMP is a free Minecraft city server for Java and Bedrock: 15 world cities, flyable airliners, trains, theme parks and homes to buy.">
+<link rel="icon" href="img/icon.png">
+<script>
+  // old /voice links pointed at the home page: send them on to the voice page
+  if (/[?&]u=/.test(location.search) && /[?&]s=/.test(location.search)) location.replace("voice" + (location.protocol === "file:" ? ".html" : "") + location.search);
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --panel:#c6c6c6; --ink:#2f2f2f; --soft:#555; --gold:#ffd84a; --link:#1d4fa0; }
+  * { box-sizing:border-box; }
+  html { background:#1f1a14; scroll-behavior:smooth; }
+  body { margin:0; color:var(--ink); font:16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  img { image-rendering:pixelated; max-width:100%; display:block; }
+  h1, h2, h3, nav a, .btn, .px { font-family:"Pixelify Sans", ui-monospace, monospace; }
+  a { color:var(--link); }
+  code { font:14px ui-monospace, Consolas, monospace; background:#0001; padding:1px 5px; border:1px solid #0002; }
+
+  nav { position:sticky; top:0; z-index:5; background:#111d; border-bottom:2px solid #000; backdrop-filter:blur(4px); }
+  nav .in { max-width:1080px; margin:0 auto; padding:8px 16px; display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+  nav .logo { display:flex; align-items:center; gap:10px; color:#fff; text-decoration:none; font-size:20px; font-weight:700; text-shadow:2px 2px 0 #3f3f3f; }
+  nav .logo img { width:30px; height:30px; }
+  nav .links { margin-left:auto; display:flex; gap:16px; flex-wrap:wrap; }
+  nav .links a { color:#ddd; text-decoration:none; font-size:16px; }
+  nav .links a:hover { color:var(--gold); }
+
+  .dirt { background:linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.45)), url(img/dirt.png); background-size:auto, 64px; image-rendering:pixelated; }
+  .grassline { height:24px; background:url(img/grass.png) repeat-x; background-size:64px; image-rendering:pixelated; }
+  .stone { background:linear-gradient(rgba(0,0,0,.25), rgba(0,0,0,.25)), url(img/stone.png); background-size:auto, 64px; image-rendering:pixelated; }
+
+  .wrap { max-width:1080px; margin:0 auto; padding:0 16px; }
+  header { color:#fff; padding:56px 0 46px; }
+  header h1 { font-size:clamp(44px, 9vw, 84px); line-height:1; margin:0 0 6px; text-shadow:4px 4px 0 #3f3f3f; letter-spacing:.02em; }
+  header h1 span { color:var(--gold); }
+  header .tag { font-size:19px; max-width:620px; color:#eee; margin:12px 0 26px; text-shadow:1px 1px 0 #000; }
+
+  /* looks like an entry in Minecraft's multiplayer list */
+  .entry { display:flex; gap:12px; align-items:flex-start; background:#000b; border:2px solid #8b8b8b; padding:8px; max-width:620px; font-family:"Pixelify Sans", monospace; }
+  .entry img { width:64px; height:64px; flex:none; }
+  .entry .mid { flex:1; min-width:0; }
+  .entry .name { font-size:18px; color:#fff; }
+  .entry .motd { font-size:15px; line-height:1.35; }
+  .entry .right { text-align:right; color:#aaa; font-size:15px; white-space:nowrap; }
+  .bars { display:inline-flex; gap:2px; align-items:flex-end; height:14px; margin-left:6px; vertical-align:-1px; }
+  .bars i { width:3px; background:#3a3a3a; } .bars.on i { background:#3fd13f; }
+  .bars i:nth-child(1) { height:4px } .bars i:nth-child(2) { height:6px } .bars i:nth-child(3) { height:8px } .bars i:nth-child(4) { height:11px } .bars i:nth-child(5) { height:14px }
+  .c-b { color:#55ffff } .c-6 { color:#ffaa00 } .c-7 { color:#aaaaaa } .c-e { color:#ffff55 } .c-a { color:#55ff55 } .c-8 { color:#777 }
+
+  .btn { display:inline-block; background:#6f6f6f; color:#fff; border:2px solid #000; box-shadow:inset 2px 2px 0 #a8a8a8, inset -2px -2px 0 #444;
+         text-shadow:2px 2px 0 #3f3f3f; padding:10px 20px; font-size:17px; cursor:pointer; text-decoration:none; }
+  .btn:hover { border-color:#fff; }
+  .btn.green { background:#3c8527; box-shadow:inset 2px 2px 0 #6fbf4f, inset -2px -2px 0 #24521a; }
+  .actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:18px; }
+
+  main section { padding:46px 0; }
+  .paper { background:#e9e4d8; }
+  .paper.alt { background:#dcd5c4; }
+  h2 { font-size:32px; margin:0 0 14px; color:#3a3226; }
+  h3 { font-size:21px; margin:22px 0 8px; color:#3a3226; }
+  p { margin:0 0 14px; max-width:68ch; }
+  .two { display:grid; grid-template-columns:1.2fr 1fr; gap:34px; align-items:start; }
+  .two.even { grid-template-columns:1fr 1fr; }
+  @media (max-width:800px) { .two, .two.even { grid-template-columns:1fr; } .entry .right { display:none; } }
+  .two > * { min-width:0; }
+  figure { margin:0; }
+  figure img { width:100%; border:3px solid #3a3226; }
+  figcaption { font-size:13px; color:var(--soft); margin-top:6px; }
+  .shots { display:grid; grid-template-columns:repeat(3, 1fr); gap:18px; margin-top:20px; }
+  @media (max-width:800px) { .shots { grid-template-columns:1fr; } }
+
+  .log { border-left:4px solid #3c8527; padding-left:16px; }
+  .log h3 { margin-top:0; }
+  .log .date { font-size:14px; color:var(--soft); margin:-6px 0 8px; }
+  ul.plain { margin:0; padding-left:20px; } ul.plain li { margin:3px 0; }
+
+  table { border-collapse:collapse; width:100%; font-size:15px; background:#f6f2e8; }
+  th, td { text-align:left; padding:7px 10px; border-bottom:1px solid #c9bfa8; vertical-align:top; }
+  th { background:#3a3226; color:#fff; font-family:"Pixelify Sans", monospace; font-weight:600; }
+  .scroll { overflow-x:auto; border:2px solid #3a3226; }
+  tr.spawn td { background:#fff2bf; }
+
+  .cols { columns:2 300px; column-gap:40px; }
+  .cols > div { break-inside:avoid; margin-bottom:18px; }
+  .cols h3 { margin-top:0; }
+
+  .joinbox { background:var(--panel); border:2px solid #000; box-shadow:inset 3px 3px 0 #fff, inset -3px -3px 0 #555; padding:18px 20px; }
+  .joinbox h3 { margin-top:0; }
+  .addr { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-top:10px; }
+  .addr code { font-size:16px; background:#000; color:#fff; padding:8px 12px; border:2px solid #a0a0a0; }
+  .addr .btn { padding:6px 14px; font-size:15px; }
+
+  details { border-bottom:1px solid #c9bfa8; padding:10px 0; }
+  summary { cursor:pointer; font-weight:600; }
+  details p { margin:8px 0 0; }
+  ol.rules li { margin:6px 0; }
+
+  footer { color:#bbb; padding:24px 0 30px; font-size:14px; }
+  footer .wrap { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+  footer a { color:#ffe08a; }
+  .toast { position:fixed; left:50%; bottom:24px; transform:translateX(-50%); background:#000; color:#fff; border:2px solid #fff; padding:8px 16px; font-family:"Pixelify Sans", monospace; display:none; z-index:9; }
+  .toast.show { display:block; }
+</style>
+</head>
+<body>
+<nav>
+  <div class="in">
+    <a class="logo" href="#top"><img src="img/icon.png" alt="">SkyPlane SMP</a>
+    <div class="links"><a href="#about">About</a><a href="#update">Updates</a><a href="#cities">Cities</a><a href="#join">Join</a><a href="#graphics">Graphics</a><a href="#commands">Commands</a><a href="#rules">Rules</a></div>
+  </div>
+</nav>
+
+<header class="dirt" id="top">
+  <div class="wrap">
+    <h1>SkyPlane <span>SMP</span></h1>
+    <p class="tag">A Minecraft city server where you can fly an airliner from London to Tokyo, take the bullet train home and spend the evening on a roller coaster.</p>
+    <div class="entry" title="How the server looks in your multiplayer list">
+      <img src="img/icon.png" alt="SkyPlane SMP icon">
+      <div class="mid">
+        <div class="name">SkyPlane SMP</div>
+        <div class="motd"><span class="c-b">SkyPlane</span> <span class="c-6">SMP</span> <span class="c-8">|</span> <span class="c-e">15 cities</span> <span class="c-7">· airliners · trains</span><br><span class="c-a">Theme parks, malls &amp; homes to buy</span> <span class="c-7">· Java + Bedrock</span></div>
+      </div>
+      <div class="right"><span id="count">?/30</span><span class="bars" id="bars"><i></i><i></i><i></i><i></i><i></i></span><div id="state" style="font-size:13px">checking…</div></div>
+    </div>
+    <div class="actions">
+      <button class="btn green" id="copy">Copy server address</button>
+      <a class="btn" href="#join">How to join</a>
+    </div>
+  </div>
+</header>
+<div class="grassline"></div>
+
+<main>
+<section class="paper" id="about">
+  <div class="wrap two">
+    <div>
+      <h2>What the server is</h2>
+      <p>SkyPlane SMP is one big world with fifteen cities based on real ones: Lion City, Tokyo, London, New York, Dubai and ten more. Each city has its own style of houses and landmarks, an airport, a metro, a mall and a theme park. There's plain Minecraft countryside between them, so you can still go off and build a base in the Wild.</p>
+      <p>You get a free flat in Lion City when you first join. From there you can get a job, save up for a bigger place, open a shop in the mall, or learn to fly and start an airline with your friends. Planes, trains and cars all use the resource pack the server sends you, so you don't need any mods.</p>
+      <p>It works on Java and on Bedrock (phone, Xbox, Switch, PlayStation, Windows), and it's free.</p>
+    </div>
+    <figure>
+      <img src="img/map-lioncity.png" alt="Top-down map of Lion City's centre" width="400" height="400" loading="lazy">
+      <figcaption>Lion City, where everyone starts. This is the real map of the town centre: the round plaza is spawn, and the blocks around it are towers and shops you can buy.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="paper alt" id="update">
+  <div class="wrap">
+    <h2>Updates</h2>
+    <div class="log" style="margin-bottom:26px">
+      <h3>Update 8: real-size aviation</h3>
+      <div class="date">November 2026</div>
+      <ul class="plain">
+        <li>Every aircraft is now its real size. A 747 is 64 m wide and 17 m tall, an A320 is 36 m across, and a Cessna is 11 m.</li>
+        <li>All 18 airports were rebuilt at real scale, with 45-60 m runways, proper markings, approach lights, PAPI lights, taxiways with centreline lights, and stands spaced for 747s.</li>
+        <li>Changi is now a full-size airport: two 4 km runways, four terminals with piers, the Jewel with the Rain Vortex, and the Skytrain running through all of them.</li>
+        <li>Terminals have a raised departures level with check-in rows, security, shops you can walk into, gardens and gate lounges.</li>
+        <li>Jet bridges now leave from the departures level and reach down to the aircraft door, then pull back when you start the engines.</li>
+        <li>Airline aircraft are parked at the gates, so airports look busy.</li>
+        <li>A much bigger world. Cities are now 16 km apart: about 10 minutes by bullet train, or 5 to 6 minutes by airliner.</li>
+        <li>Instrument landings: line up with any runway and an ILS bar shows the localizer and glideslope, with marker beeps and a "Minimums" call. ATC talks you through taxi, take-off, approach and landing.</li>
+        <li>Live departure boards in every terminal.</li>
+        <li>Aircraft lights: flashing red beacons and white wing-tip strobes whenever the engines are running.</li>
+        <li>New smoother aircraft models with straight wing and tail edges.</li>
+        <li>An optional better-graphics installer with shaders, Distant Horizons, dynamic lights and sound physics (see below).</li>
+        <li>Fixes: planes no longer show up as purple cubes, parked planes no longer turn on their own or break on restart, and one pilot can no longer book every runway slot.</li>
+      </ul>
+    </div>
+    <div class="log">
+      <h3>Cities got a lot bigger</h3>
+      <div class="date">November 2026</div>
+      <ul class="plain">
+        <li>New skyscrapers in every city, in six different shapes. Some take up a whole block, and some are twin towers joined by sky bridges. Each floor has its own flat layout.</li>
+        <li>Housing estates on the edge of each city: terraced houses, semi-detached houses, bungalows and big houses with pools. All of them are furnished and for sale.</li>
+        <li>Every city now has a theme park with two roller coasters you can actually ride, plus a Ferris wheel, carousel, drop tower, bumper cars and a haunted house.</li>
+        <li>Every city also has a three-storey mall with about 30 shops for sale, a food court and a cinema.</li>
+        <li>Every building with more than one floor has a lift. Stand on the pad and pick your floor.</li>
+        <li>You can lock your door with a code: <code>/doorcode set 1234</code>. Three wrong guesses set off an alarm and text you.</li>
+        <li>Streets and paths have more lights, so cities are properly lit at night.</li>
+        <li><code>/menu</code> puts everything in one place. There's also a sidebar showing your money and job (hide it with <code>/hud</code>), player warps and <code>/rtp</code>.</li>
+        <li>New features: graves for your items when you die, <code>/skin</code>, map art from images, chopping down whole trees and vein mining.</li>
+        <li>The voice chat site has been rebuilt. Voices get quieter with distance and come from the side the speaker is standing on. Messages you send there also pop up on the other player's in-game phone.</li>
+      </ul>
+    </div>
+    <div class="shots">
+      <figure><img src="img/map-park.png" alt="Map of a theme park" loading="lazy"><figcaption>A theme park. The two long boxes are the roller coasters, with the Ferris wheel and pond below them.</figcaption></figure>
+      <figure><img src="img/map-estate.png" alt="Map of a housing estate by the sea" loading="lazy"><figcaption>A housing estate on the coast. Every house has a garden, a driveway and a lift inside.</figcaption></figure>
+      <figure><img src="img/map-grid.png" alt="Map of city streets beside a lake" loading="lazy"><figcaption>The western edge of Lion City, where the street grid runs into the forest and the lake.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="paper" id="cities">
+  <div class="wrap">
+    <h2>The fifteen cities</h2>
+    <p>The cities sit on a 5 × 3 grid 16 km apart: about 10 minutes by bullet train or 5 to 6 minutes by airliner. Every city has at least one airport. You can also take a SkyAir hop from <code>/menu</code> if you don't want to fly yourself.</p>
+    <div class="scroll"><table id="cityTable"><thead><tr><th>City</th><th>Based on</th><th>Look out for</th></tr></thead><tbody></tbody></table></div>
+  </div>
+</section>
+
+<section class="paper alt" id="features">
+  <div class="wrap">
+    <h2>What you can do</h2>
+    <div class="cols">
+      <div><h3>Getting around</h3><ul class="plain">
+        <li>24 aircraft, from gliders and helicopters up to jumbo jets, with fuel, flaps, gear and runway slots from ATC</li>
+        <li>Driverless metro, a monorail and bullet trains, with departure boards</li>
+        <li>14 cars, city buses every few minutes, boats, ferries and a cruise ship</li></ul></div>
+      <div><h3>Homes and land</h3><ul class="plain">
+        <li>Buy a flat, house, villa or shop in any city, or rent one out</li>
+        <li>Claim land in the Wild to protect your base</li>
+        <li>Door codes, smart locks, doorbells and cameras</li></ul></div>
+      <div><h3>Money</h3><ul class="plain">
+        <li>Jobs: pilot, train driver, courier, taxi, firefighter, paramedic, chef and more</li>
+        <li>A bank with savings and loans, stocks, an auction house and chest shops</li>
+        <li>Daily rewards and daily tasks</li></ul></div>
+      <div><h3>Things to do</h3><ul class="plain">
+        <li>Roller coasters and fairground rides in every city</li>
+        <li>Parkour, boat races, elytra rings, fishing contests and an arcade</li>
+        <li>Fireworks at 21:00, night markets, festivals and mayor elections</li></ul></div>
+      <div><h3>Friends</h3><ul class="plain">
+        <li>Proximity voice chat in your browser, no mod needed (type <code>/voice</code> in game)</li>
+        <li>A phone with maps, messages, the bank, a flight radar and the news</li>
+        <li>Clubs, emotes, selfies, marriage and leaderboards</li></ul></div>
+      <div><h3>Fair play</h3><ul class="plain">
+        <li>City land is protected, and everything is logged so griefing can be rolled back</li>
+        <li>Police, a court and a jail for people who break the rules</li>
+        <li>Anti-cheat, plus graves so you don't lose your items when you die</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="stone" id="join" style="color:#fff">
+  <div class="wrap">
+    <h2 style="color:#fff;text-shadow:2px 2px 0 #222">How to join</h2>
+    <div class="two even" style="color:var(--ink)">
+      <div class="joinbox">
+        <h3>Java Edition</h3>
+        <ol><li>Open <b>Multiplayer</b> and press <b>Add Server</b>.</li><li>Paste the address below.</li><li>When it asks about the server resource pack, choose <b>Yes</b>.</li><li>Once you're in, type <code>/menu</code>.</li></ol>
+        <div class="addr"><code id="javaAddr">skyplanesmp.trick-game.net</code><button class="btn" data-copy="java">Copy</button></div>
+        <p style="font-size:14px;color:var(--soft);margin:10px 0 0">Best on 26.3. Older versions can join too, but some models may look off.</p>
+      </div>
+      <div class="joinbox">
+        <h3>Bedrock Edition</h3>
+        <ol><li>Go to <b>Servers</b>, scroll down and press <b>Add Server</b>.</li><li>Enter the address and port below.</li><li>Accept the resource pack.</li><li>Type <code>/menu</code>.</li></ol>
+        <div class="addr"><code id="bedAddr">51.79.163.19</code><code>port <span id="bedPort">25821</span></code><button class="btn" data-copy="bedrock">Copy</button></div>
+        <p style="font-size:14px;color:var(--soft);margin:10px 0 0">Planes and cars show up as simpler shapes on Bedrock, but everything still works.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="paper alt" id="graphics">
+  <div class="wrap two">
+    <div>
+      <h2>Better graphics (optional)</h2>
+      <p>Normal Minecraft works fine on SkyPlane SMP. If your computer can handle it, our installer sets up a separate "SkyPlane SMP" installation in the Minecraft Launcher with:</p>
+      <ul class="plain">
+        <li><b>Shaders</b> (Complementary Reimagined): real shadows, reflections on the terminal glass and wet runways, proper sunsets</li>
+        <li><b>Distant Horizons</b>: see whole cities and the next airport from cruising altitude instead of fog</li>
+        <li><b>Dynamic lights</b>: landing lights and lanterns light up what's around them</li>
+        <li><b>Sound physics</b>: engines echo in hangars and get muffled behind walls</li>
+        <li>Sodium for a much higher frame rate, plus smoother animations and connected glass</li>
+      </ul>
+      <p>It doesn't touch your normal Minecraft or your other mods. You need about 6 GB of free memory and a graphics card from roughly the last six years.</p>
+      <div class="actions">
+        <a class="btn green" href="downloads/SkyPlane-Launcher.zip">Download the installer (Windows)</a>
+        <a class="btn" href="downloads/SkyPlane-SMP-Client.mrpack">Modrinth / Prism pack</a>
+        <a class="btn" href="downloads/SkyPlane-Client-Mod.jar">SkyPlane client mod only (.jar)</a>
+      </div>
+      <p style="font-size:14px;color:var(--soft);margin:12px 0 0">Already have Fabric? Drop the client mod into your <b>mods</b> folder. It adds the C key for aircraft controls and tells the server you have better graphics.</p>
+      <p style="font-size:14px;margin:12px 0 0;padding:10px 12px;border-left:4px solid #e0a020;background:rgba(224,160,32,.1)">These downloads are for playing on SkyPlane SMP only. Want the SkyPlane mods for your own server? Message <b>gcrobbie</b> on Discord.</p>
+    </div>
+    <div class="joinbox">
+      <h3>Installing it</h3>
+      <ol>
+        <li>Close the Minecraft Launcher.</li>
+        <li>Unzip <b>SkyPlane-Launcher.zip</b> and double-click <b>Install.bat</b>. It downloads everything from Modrinth and checks each file.</li>
+        <li>Open the launcher, pick the <b>SkyPlane SMP</b> installation and press Play. The server is already in your multiplayer list.</li>
+      </ol>
+      <p style="font-size:14px;color:var(--soft);margin:10px 0 0">Using Prism Launcher or the Modrinth App? Import the .mrpack file instead. Too slow? Turn shaders off under Options, Video Settings, Shader Packs.</p>
+    </div>
+  </div>
+</section>
+
+<section class="paper" id="commands">
+  <div class="wrap">
+    <h2>Commands worth knowing</h2>
+    <p>You can do almost everything from <code>/menu</code>, but these shortcuts are handy.</p>
+    <div class="scroll"><table id="cmdTable"><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody></tbody></table></div>
+  </div>
+</section>
+
+<section class="paper alt" id="faq">
+  <div class="wrap two">
+    <div>
+      <h2>Questions</h2>
+      <div id="faqs"></div>
+    </div>
+    <div id="rules">
+      <h2>Rules</h2>
+      <ol class="rules">
+        <li>Be decent to people. No harassment, slurs or threats. Players of all ages play here.</li>
+        <li>No hacked clients, X-ray, fly or speed hacks, auto-clickers or abusing bugs.</li>
+        <li>Don't grief in cities. Land there belongs to whoever owns it, and we can roll back anything.</li>
+        <li>The Wild has no rules about fighting and raiding. Claim your land if you want it protected.</li>
+        <li>Don't park on runways or railway tracks, and don't crash vehicles into builds on purpose.</li>
+        <li>No trading for real money, no scamming in the auction house, and no alt accounts farming rewards.</li>
+        <li>Don't advertise other servers.</li>
+        <li>If staff make a decision you disagree with, appeal it calmly. Don't argue about it in chat.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="dirt">
+  <div class="wrap">
+    <span>SkyPlane SMP. Not an official Minecraft product, and not approved by or associated with Mojang or Microsoft.</span>
+    <span><a href="https://ref.medal.tv/gc-robbie" target="_blank" rel="noopener">Sign up to Medal and get a free plane</a></span>
+  </div>
+</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+// ---- change these if the server address ever changes ----
+const SERVER_ADDRESS = "skyplanesmp.trick-game.net";
+const BEDROCK_ADDRESS = "51.79.163.19";   // Bedrock can't follow the domain's SRV record, so it needs the IP and port
+const BEDROCK_PORT = "25821";
+// ----------------------------------------------------------
+const $ = (s) => document.querySelector(s);
+$("#javaAddr").textContent = SERVER_ADDRESS; $("#bedAddr").textContent = BEDROCK_ADDRESS; $("#bedPort").textContent = BEDROCK_PORT;
+
+const toast = (m) => { const t = $("#toast"); t.textContent = m; t.classList.add("show"); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove("show"), 1800); };
+const copy = async (text, msg) => { try { await navigator.clipboard.writeText(text); toast(msg); } catch { toast(text); } };
+$("#copy").onclick = () => copy(SERVER_ADDRESS, "Copied " + SERVER_ADDRESS);
+document.querySelectorAll("[data-copy]").forEach((b) => b.onclick = () => b.dataset.copy === "java"
+  ? copy(SERVER_ADDRESS, "Copied " + SERVER_ADDRESS) : copy(BEDROCK_ADDRESS, "Copied " + BEDROCK_ADDRESS + " (port " + BEDROCK_PORT + ")"));
+
+fetch("https://api.mcsrvstat.us/3/" + encodeURIComponent(SERVER_ADDRESS)).then((r) => r.json()).then((d) => {
+  if (d && d.online) {
+    $("#count").textContent = (d.players ? d.players.online + "/" + d.players.max : "");
+    $("#bars").classList.add("on"); $("#state").textContent = "online";
+  } else { $("#count").textContent = ""; $("#state").textContent = "offline right now"; }
+}).catch(() => { $("#state").textContent = "status unknown"; });
+
+const CITIES = [
+  ["Lion City", "Singapore", "Where you start. Changi-style mega airport, Marina Bay and the Jewel.", 1],
+  ["Seoul", "Korea", "Towers along the Han river, temples and Incheon airport."],
+  ["Tokyo", "Japan", "Neon towers, pagodas, and two airports (Haneda and Narita)."],
+  ["Hong Kong", "Hong Kong", "The tallest skyline in the world, and Chek Lap Kok airport."],
+  ["Shanghai", "China", "The Pearl Tower and Pudong airport."],
+  ["Bangkok", "Thailand", "Golden temples and shophouses."],
+  ["London", "UK", "Brick terraces, plus Heathrow and Gatwick."],
+  ["Paris", "France", "Mansard roofs, the Tower and CDG."],
+  ["Dubai", "UAE", "Desert supertalls."],
+  ["Cairo", "Egypt", "A sandstone town next to the pyramids."],
+  ["New York", "USA", "Brownstones and the Empire State, plus JFK and LaGuardia."],
+  ["Rome", "Italy", "Terracotta streets and the Colosseum."],
+  ["Sydney", "Australia", "The harbour and the Opera House."],
+  ["Amsterdam", "Netherlands", "Canal houses, windmills and Schiphol."],
+  ["Rio de Janeiro", "Brazil", "Colourful hillside houses and Christ the Redeemer."]];
+$("#cityTable tbody").innerHTML = CITIES.map(([c, b, n, s]) => `<tr${s ? ' class="spawn"' : ""}><td><b>${c}</b></td><td>${b}</td><td>${n}</td></tr>`).join("");
+
+const CMDS = [
+  ["/menu", "The main menu. Almost everything is in here."], ["/phone", "Your phone: maps, bank, messages, property"], ["/attractions", "Find theme parks, malls, estates, airports and landmarks"],
+  ["/spawn", "Go back to Lion City"], ["/voice", "Your personal link to voice chat and web messages"], ["/doorcode set 1234", "Put a code lock on the door you're looking at"],
+  ["/board", "Get on the train or plane next to you"], ["/rtp", "Teleport somewhere random in the Wild"], ["/pwarp set &lt;name&gt;", "Let other players warp to your shop or build ($500)"],
+  ["/daily", "Daily reward"], ["/ah", "Auction house"], ["/skin set &lt;name&gt;", "Change your skin"], ["/hud", "Show or hide the sidebar"]];
+$("#cmdTable tbody").innerHTML = CMDS.map(([c, d]) => `<tr><td><code>${c}</code></td><td>${d}</td></tr>`).join("");
+
+const FAQ = [
+  ["Do I need mods?", "No. Join with normal Minecraft. The server sends a resource pack with the planes, trains, cars and phone. Say yes when it asks."],
+  ["Is it free?", "Yes. Everything is earned in game."],
+  ["How do I get a house?", "You get a free starter flat in Lion City. To buy a bigger flat, a house or a shop, open your phone and go to Property."],
+  ["How do I ride a roller coaster?", "Use /attractions and pick a theme park. Sit in a cart at the station, press the button on the platform and hold W."],
+  ["How do I fly?", "Buy a plane in /shop, or take a SkyAir flight from /menu. Right-click the cockpit to get in. The tutorial shows you the controls."],
+  ["How does voice chat work?", "Type /voice in game and open the link. It opens in your browser, so keep Minecraft running alongside it. You'll hear players who are near you in game."]];
+$("#faqs").innerHTML = FAQ.map(([q, a]) => `<details><summary>${q}</summary><p>${a}</p></details>`).join("");
+</script>
+</body>
+</html>

@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SkyPlane SMP · Voice &amp; messages</title>
+<link rel="icon" href="img/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --panel:#c6c6c6; --hi:#ffffff; --lo:#555555; --ink:#2f2f2f; --soft:#5b5b5b; --slot:#8b8b8b;
+          --green:#3c8527; --red:#a12b2b; --gold:#e8b22e; --blue:#2b5aa1; }
+  * { box-sizing:border-box; }
+  html { background:#2b2118; }
+  body { margin:0; color:var(--ink); font:15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+         background:linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), #2b2118 url(img/dirt.png); background-size:auto, 64px; image-rendering:pixelated; accent-color:#3c8527; }
+  img, canvas { image-rendering:pixelated; }
+  h1, h2, h3, .px, button, .tab { font-family:"Pixelify Sans", ui-monospace, monospace; font-weight:600; letter-spacing:.02em; }
+  .bar { display:flex; align-items:center; gap:12px; padding:10px 16px; background:#000a; border-bottom:2px solid #000; color:#fff; flex-wrap:wrap; }
+  .bar img { width:32px; height:32px; }
+  .bar h1 { margin:0; font-size:20px; text-shadow:2px 2px 0 #3f3f3f; }
+  .bar a { color:#ffe08a; }
+  .bar .right { margin-left:auto; display:flex; gap:14px; align-items:center; color:#ddd; font-size:14px; }
+  .wrap { max-width:1180px; margin:0 auto; padding:16px; display:grid; grid-template-columns:330px 1fr; gap:16px; }
+  @media (max-width:820px) { .wrap { grid-template-columns:1fr; padding:16px 12px; } }
+  .panel { background:var(--panel); border:2px solid #000; box-shadow:inset 3px 3px 0 var(--hi), inset -3px -3px 0 var(--lo); padding:14px 14px 12px; border-radius:3px; margin-bottom:16px; }
+  .panel h2 { font-size:17px; margin:0 0 8px; color:#3f3f3f; }
+  .note { color:var(--soft); font-size:13px; margin:6px 0; }
+  button { background:#6f6f6f; color:#fff; border:2px solid #000; box-shadow:inset 2px 2px 0 #a8a8a8, inset -2px -2px 0 #444;
+           text-shadow:2px 2px 0 #3f3f3f; padding:8px 14px; font-size:15px; cursor:pointer; border-radius:0; }
+  button:hover { border-color:#fff; } button:active { box-shadow:inset 2px 2px 0 #444, inset -2px -2px 0 #a8a8a8; }
+  button:disabled { background:#2f2f2f; color:#888; cursor:default; border-color:#000; }
+  button.go { background:#3c8527; box-shadow:inset 2px 2px 0 #6fbf4f, inset -2px -2px 0 #24521a; }
+  button.stop { background:#a12b2b; box-shadow:inset 2px 2px 0 #d65a5a, inset -2px -2px 0 #5f1414; }
+  button.on { background:#2b5aa1; box-shadow:inset 2px 2px 0 #5b8ad1, inset -2px -2px 0 #163563; }
+  input, select, textarea { background:#000; color:#fff; border:2px solid #a0a0a0; padding:8px 10px; font:inherit; border-radius:0; width:100%; }
+  input:focus, select:focus, textarea:focus { outline:none; border-color:#fff; }
+  .btnrow { display:flex; gap:8px; flex-wrap:wrap; }
+  .slot { background:var(--slot); box-shadow:inset 2px 2px 0 #373737, inset -2px -2px 0 #fff; padding:3px; }
+  .meter { height:10px; background:#373737; } .meter i { display:block; height:100%; width:0; background:#5fd35f; transition:width .06s; }
+  .warn { background:#3a2a00; color:#ffe08a; border:2px solid #000; padding:8px 10px; margin:8px 0 0; font-size:13px; display:none; }
+  .warn.show { display:block; }
+  .people { max-height:340px; overflow-y:auto; margin:0 -4px; }
+  .person { display:flex; align-items:center; gap:8px; padding:6px 6px; cursor:pointer; border:2px solid transparent; }
+  .person:hover { background:#b0b0b0; } .person.sel { background:#a5a5a5; border-color:#fff; }
+  .head { width:22px; height:22px; flex:none; background:#555; }
+  .person .who { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .person .where { color:var(--soft); font-size:12px; }
+  .person.talk .head { outline:3px solid #5fd35f; }
+  .tag { font-size:11px; padding:1px 5px; background:#373737; color:#fff; }
+  .tag.v { background:#3c8527; } .tag.c { background:#7a6a1a; } .tag.u { background:#a12b2b; }
+  .tabs { display:flex; gap:4px; margin-bottom:-2px; flex-wrap:wrap; }
+  .tab { background:#8b8b8b; border:2px solid #000; border-bottom:0; padding:7px 14px; cursor:pointer; color:#3f3f3f; font-size:15px; box-shadow:inset 2px 2px 0 #b8b8b8; }
+  .tab.on { background:var(--panel); box-shadow:inset 3px 3px 0 #fff; position:relative; z-index:1; }
+  .tabpage { display:none; } .tabpage.on { display:block; }
+  #log { height:min(52vh, 460px); overflow-y:auto; background:#000c; color:#fff; padding:10px 12px; font-size:15px; border:2px solid #000; }
+  .msg { margin:3px 0; word-wrap:break-word; } .msg .n { color:#ffe08a; } .msg.me .n { color:#8fd3ff; } .msg .t { color:#888; font-size:11px; margin-left:6px; }
+  .empty { color:#999; text-align:center; padding:40px 10px; }
+  form.send { display:flex; gap:8px; margin-top:8px; } form.send input { flex:1; }
+  .err { background:#5f1414; color:#fff; padding:12px 16px; border-bottom:2px solid #000; white-space:pre-wrap; display:none; }
+  .err.show { display:block; }
+  .kv { display:grid; grid-template-columns:auto 1fr; gap:3px 12px; font-size:14px; } .kv b { color:#3f3f3f; }
+  .row { display:flex; align-items:center; gap:8px; padding:6px 0; border-bottom:1px solid #a0a0a0; }
+  canvas#pmap { width:100%; background:#071018; border:2px solid #000; touch-action:none; }
+  label.chk { display:flex; gap:8px; align-items:center; font-size:13px; color:var(--soft); margin-top:8px; }
+  label.chk input { width:auto; }
+  .vol { width:70px; padding:0; }
+  footer { color:#bbb; text-align:center; font-size:12px; padding:10px 0 24px; }
+</style>
+</head>
+<body>
+<div class="bar">
+  <img src="img/icon.png" alt="">
+  <h1>SkyPlane SMP</h1>
+  <span class="right"><span id="clock"></span><span id="me">Signing in…</span><a href="/">Server site</a></span>
+</div>
+<div class="err" id="error"></div>
+
+<div class="wrap">
+  <div>
+    <div class="panel">
+      <h2>Proximity voice</h2>
+      <p class="note" style="margin-top:0">You hear players who are within <b id="range">48</b> blocks of you in game. Further away they get quieter, and their voice comes from the side they're standing on. Keep Minecraft running while you talk.</p>
+      <div class="btnrow">
+        <button id="join" class="go">Join voice</button>
+        <button id="mute" hidden>Mute mic</button>
+        <button id="deaf" hidden>Deafen</button>
+      </div>
+      <div style="margin-top:10px" class="slot"><div class="meter"><i id="micLevel"></i></div></div>
+      <div class="note" id="vstat">Not in voice.</div>
+      <div class="warn" id="notInGame">You're not in the game right now. Join SkyPlane SMP so the site knows where you are. Until then nobody can hear you.</div>
+      <div class="warn" id="noServer">The server hasn't sent any positions for a while. It may be restarting.</div>
+      <label class="chk" id="capWrap" hidden><input type="checkbox" id="capOn" checked> Show what I say as captions above my head in game</label>
+    </div>
+
+    <div class="panel">
+      <h2>People</h2>
+      <div class="people" id="people"><div class="note">Loading…</div></div>
+      <p class="note">Click someone to message them. Messages also pop up on their in-game phone.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="tabs" id="tabs">
+      <div class="tab on" data-t="chat">Messages <span id="unreadAll" class="tag u" hidden></span></div>
+      <div class="tab" data-t="pilot">Pilot map</div>
+      <div class="tab" data-t="market">Market</div>
+      <div class="tab" data-t="land">Land</div>
+      <div class="tab" data-t="stats">Server</div>
+    </div>
+    <div class="panel">
+      <div class="tabpage on" id="t-chat">
+        <h2 id="chatTitle">Messages</h2>
+        <div id="log"><div class="empty">Pick a person on the left to start a conversation.</div></div>
+        <form class="send" id="send"><input id="text" maxlength="500" placeholder="Type a message…" autocomplete="off" disabled><button id="sendBtn" disabled>Send</button></form>
+      </div>
+
+      <div class="tabpage" id="t-pilot">
+        <h2>Pilot map</h2>
+        <p class="note" id="flyInfo">Sit in a plane's pilot seat in game to see your flight here.</p>
+        <canvas id="pmap" width="720" height="440"></canvas>
+        <div class="btnrow" style="margin-top:8px"><select id="pDest" style="flex:1;min-width:180px;width:auto"></select>
+          <button id="pGo" type="button">Fly me there</button><button id="pCancel" type="button">Cancel route</button></div>
+        <p class="note" id="pMsg"></p>
+        <p class="note">Tap an airport to pick it, scroll to zoom. The autopilot flies there and gives you back control about 30 seconds out so you can land. Your arrival slot is booked from your ETA.</p>
+      </div>
+
+      <div class="tabpage" id="t-market">
+        <h2>Auction house <span class="note" id="mkAge"></span></h2>
+        <input id="mkSearch" placeholder="Search items…">
+        <div id="mkList" style="margin-top:8px">Loading…</div>
+        <p class="note" id="mkMsg"></p>
+        <p class="note">Bids and purchases use your in-game bank. Things you buy go to your mailbox in game. To sell something, use Quick Actions on your phone.</p>
+      </div>
+
+      <div class="tabpage" id="t-land">
+        <h2>Ask the staff for land</h2>
+        <p class="note">Want a special area in the Wild, a particular city plot, or to found your own city? Ask here. Your phone gets a message when staff decide.</p>
+        <select id="appKind"><option value="land">Land in the Wild</option><option value="plot">A city plot</option><option value="city">Found a city</option></select>
+        <textarea id="appText" maxlength="300" rows="3" placeholder="What do you want to build, and how big?" style="margin-top:8px"></textarea>
+        <div class="btnrow" style="margin-top:8px"><input id="appX" placeholder="X" style="width:110px"><input id="appZ" placeholder="Z" style="width:110px">
+          <button id="appHere" type="button">Use my position</button><button id="appSend" type="button" class="go">Send request</button></div>
+        <p class="note" id="appMsg"></p>
+        <div id="appList" class="note"></div>
+      </div>
+
+      <div class="tabpage" id="t-stats">
+        <h2>Server <span class="note" id="statsWhen"></span></h2>
+        <div id="stats" class="note">Waiting for the server…</div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>SkyPlane SMP · Voice goes straight between players' browsers and is never recorded.</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithCustomToken, connectAuthEmulator } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, connectFirestoreEmulator, doc, onSnapshot, setDoc, deleteDoc, collection, addDoc, query, orderBy, limit, increment }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const $ = (id) => document.getElementById(id);
+const esc = (t) => String(t ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const fail = (m) => { $("error").textContent = m; $("error").classList.add("show"); };
+const params = new URLSearchParams(location.search);
+const sig = { u: params.get("u"), n: params.get("n"), e: params.get("e"), s: params.get("s") };
+const PRESENCE_MS = 15000, PRESENCE_STALE = 45000;
+
+let cfg, db, me, myName;
+let positions = [], posT = 0;
+const present = new Map();     // uuid -> {name, t}
+const threads = new Map();     // uuid -> {name, last, t, unread}
+const heads = (u) => `https://mc-heads.net/avatar/${encodeURIComponent(u)}/22`;
+
+// ---------------------------------------------------------------- tabs
+document.querySelectorAll(".tab").forEach((t) => t.onclick = () => {
+  document.querySelectorAll(".tab").forEach((x) => x.classList.toggle("on", x === t));
+  document.querySelectorAll(".tabpage").forEach((p) => p.classList.toggle("on", p.id === "t-" + t.dataset.t));
+  if (t.dataset.t === "pilot") drawPilot();
+});
+
+// ---------------------------------------------------------------- sign in
+async function start() {
+  cfg = await (await fetch("/api/config")).json();
+  $("range").textContent = cfg.hearing;
+  if (!sig.u || !sig.s) return fail("Open this page with your personal link: type /voice in Minecraft and click the link.");
+  const sess = await fetch("/api/session?" + new URLSearchParams(sig)).then((r) => r.json());
+  if (!sess.token) return fail((sess.error || "Could not sign in.") + "\nType /voice in Minecraft to get a fresh link.");
+  const app = initializeApp(cfg.firebase);
+  const auth = getAuth(app);
+  db = getFirestore(app);
+  if (cfg.emulator) {
+    connectAuthEmulator(auth, "http://" + cfg.emulator.auth, { disableWarnings: true });
+    const [h, p] = cfg.emulator.firestore.split(":"); connectFirestoreEmulator(db, h, +p);
+  }
+  await signInWithCustomToken(auth, sess.token);
+  me = sess.uuid; myName = sess.name;
+  $("me").textContent = "Signed in as " + myName;
+
+  onSnapshot(doc(db, "world/positions"), (s) => {
+    const d = s.data() || {}; positions = d.players || []; posT = d.t || 0;
+    if (d.clock) $("clock").textContent = d.clock;
+    renderPeople(); updateVoice(); drawPilot();
+  });
+  onSnapshot(collection(db, "presence"), (s) => {
+    s.docChanges().forEach((c) => { if (c.type === "removed") present.delete(c.doc.id); else present.set(c.doc.id, c.doc.data()); });
+    renderPeople(); updateVoice();
+  });
+  onSnapshot(collection(db, "inbox", me, "threads"), (s) => {
+    s.docChanges().forEach((c) => {
+      const d = c.doc.data(), old = threads.get(c.doc.id);
+      if (c.type === "removed") threads.delete(c.doc.id); else threads.set(c.doc.id, d);
+      if (c.type !== "removed" && old && d.unread > (old.unread || 0) && c.doc.id !== dmWith) ping();
+    });
+    if (dmWith && (threads.get(dmWith)?.unread || 0) > 0) markRead(dmWith);
+    renderPeople();
+  });
+  onSnapshot(collection(db, "signals", me, "msgs"), (s) => {
+    const fresh = [];
+    s.docChanges().forEach((c) => { if (c.type === "added") { fresh.push(c.doc.data()); deleteDoc(c.doc.ref).catch(() => {}); } });
+    fresh.sort((a, b) => a.t - b.t).forEach(enqueue);
+  });
+  onSnapshot(doc(db, "world/stats"), (s) => renderStats(s.data() || null));
+  onSnapshot(doc(db, "world/airports"), (s) => { airports = (s.data() || {}).list || []; fillDest(); drawPilot(); });
+  onSnapshot(doc(db, "world/market"), (s) => { market = s.data() || {}; renderMarket(); });
+  $("text").disabled = false; $("sendBtn").disabled = false; $("text").placeholder = "Pick someone first…";
+  loadApps();
+  setInterval(tick, 2000);
+}
+
+function pos(uuid) { return positions.find((p) => p.uuid === uuid); }
+function dist(a, b) { return (!a || !b || a.dim !== b.dim) ? Infinity : Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z); }
+function isPresent(uuid) { const p = present.get(uuid); return !!p && Date.now() - (p.t || 0) < PRESENCE_STALE; }
+
+// ---------------------------------------------------------------- people list
+function renderPeople() {
+  if (!me) return;
+  const mine = pos(me), ids = new Set();
+  for (const p of positions) if (p.uuid !== me) ids.add(p.uuid);
+  for (const id of threads.keys()) if (id !== me) ids.add(id);
+  const rows = [...ids].map((id) => {
+    const p = pos(id), t = threads.get(id), d = dist(mine, p);
+    return { id, name: p?.name || t?.name || present.get(id)?.name || "?", online: !!p, d, area: p?.area, unread: t?.unread || 0, last: t?.t || 0 };
+  }).sort((a, b) => (b.unread > 0) - (a.unread > 0) || b.online - a.online || a.d - b.d || b.last - a.last);
+  const el = $("people");
+  if (!rows.length) { el.innerHTML = `<div class="note">Nobody else is online right now.</div>`; }
+  else el.innerHTML = rows.map((r) => {
+    const peer = peers.get(r.id), voice = isPresent(r.id);
+    const where = !r.online ? "offline" : isFinite(r.d) ? Math.round(r.d) + " blocks away" : (r.area || "other world");
+    const vtag = peer && peer.state === "connected" ? `<span class="tag v">talking range</span>` : voice ? `<span class="tag">in voice</span>` : "";
+    return `<div class="person${r.id === dmWith ? " sel" : ""}${peer && peer.level > 0.04 ? " talk" : ""}" data-id="${esc(r.id)}" data-name="${esc(r.name)}">
+      <img class="head" src="${heads(r.id)}" alt="" onerror="this.style.visibility='hidden'">
+      <div class="who">${esc(r.name)}<div class="where">${esc(where)}</div></div>
+      ${vtag}${r.unread ? `<span class="tag u">${r.unread}</span>` : ""}
+      ${peer && peer.state === "connected" ? `<input class="vol" type="range" min="0" max="200" value="${Math.round((peer.userVol ?? 1) * 100)}" title="Volume" data-vol="${esc(r.id)}">` : ""}
+    </div>`;
+  }).join("");
+  const total = [...threads.values()].reduce((s, t) => s + (t.unread || 0), 0);
+  $("unreadAll").hidden = !total; $("unreadAll").textContent = total;
+  document.title = (total ? `(${total}) ` : "") + "SkyPlane SMP · Voice & messages";
+}
+$("people").addEventListener("click", (e) => {
+  if (e.target.dataset.vol) return;
+  const row = e.target.closest(".person"); if (row) openDm(row.dataset.id, row.dataset.name);
+});
+$("people").addEventListener("input", (e) => {
+  const id = e.target.dataset.vol, p = id && peers.get(id);
+  if (p) { p.userVol = +e.target.value / 100; updateVoice(); }
+});
+
+// ---------------------------------------------------------------- voice: WebRTC mesh with Firestore signalling
+let inVoice = false, stream = null, muted = false, deaf = false, audioCtx = null, master = null, presenceTimer = null;
+const peers = new Map();        // uuid -> {pc, cid, gain, pan, analyser, level, state, created, iceQ, userVol}
+const earlyIce = new Map();     // "from|cid" -> [candidates] that arrived before the offer
+window.__sky = { peers, present, get positions() { return positions; }, get inVoice() { return inVoice; } };
+
+$("join").onclick = async () => {
+  if (inVoice) return leave();
+  $("join").disabled = true;
+  audioCtx = new AudioContext();
+  await audioCtx.resume().catch(() => {});
+  master = audioCtx.createGain(); master.connect(audioCtx.destination);
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
+    const an = audioCtx.createAnalyser(); an.fftSize = 512; audioCtx.createMediaStreamSource(stream).connect(an);
+    const buf = new Uint8Array(an.fftSize);
+    (function meter() {
+      if (!inVoice) { $("micLevel").style.width = "0"; return; }
+      an.getByteTimeDomainData(buf); let m = 0; for (const v of buf) m = Math.max(m, Math.abs(v - 128));
+      $("micLevel").style.width = (muted ? 0 : Math.min(100, m * 1.6)) + "%"; requestAnimationFrame(meter);
+    })();
+  } catch {
+    stream = null;
+    fail("No microphone (or permission was denied). You can still listen. To talk, allow the microphone in your browser's address bar and join again.");
+  }
+  inVoice = true;
+  $("join").disabled = false; $("join").textContent = "Leave voice"; $("join").className = "stop";
+  $("mute").hidden = !stream; $("deaf").hidden = false;
+  await beat();
+  presenceTimer = setInterval(beat, PRESENCE_MS);
+  updateVoice(); startCaptions();
+};
+async function beat() { if (inVoice) await setDoc(doc(db, "presence", me), { name: myName, t: Date.now() }).catch(() => {}); }
+$("mute").onclick = () => {
+  muted = !muted; stream?.getAudioTracks().forEach((t) => (t.enabled = !muted));
+  $("mute").textContent = muted ? "Unmute mic" : "Mute mic"; $("mute").className = muted ? "on" : "";
+};
+$("deaf").onclick = () => {
+  deaf = !deaf; if (master) master.gain.value = deaf ? 0 : 1;
+  $("deaf").textContent = deaf ? "Undeafen" : "Deafen"; $("deaf").className = deaf ? "on" : "";
+};
+
+async function leave() {
+  inVoice = false; clearInterval(presenceTimer);
+  for (const id of [...peers.keys()]) closePeer(id, true);
+  stream?.getTracks().forEach((t) => t.stop()); stream = null;
+  await deleteDoc(doc(db, "presence", me)).catch(() => {});
+  audioCtx?.close().catch(() => {}); audioCtx = null;
+  muted = deaf = false;
+  $("join").textContent = "Join voice"; $("join").className = "go"; $("mute").hidden = $("deaf").hidden = true;
+  $("mute").textContent = "Mute mic"; $("deaf").textContent = "Deafen"; $("mute").className = $("deaf").className = "";
+  $("vstat").textContent = "Not in voice."; $("notInGame").classList.remove("show");
+  renderPeople();
+}
+addEventListener("pagehide", () => { if (inVoice) deleteDoc(doc(db, "presence", me)); });
+
+// volume falls off with distance; the voice comes from the side the speaker is on (uses your in-game facing)
+function spatial(mine, other, userVol) {
+  const d = dist(mine, other), H = cfg.hearing;
+  let g = d <= 4 ? 1 : d >= H ? 0 : Math.pow((H - d) / (H - 4), 1.6);
+  let pan = 0;
+  if (mine && other && d > 1.5) {
+    const dx = other.x - mine.x, dz = other.z - mine.z, len = Math.hypot(dx, dz) || 1;
+    const yaw = (mine.yaw || 0) * Math.PI / 180;               // Minecraft: 0 = south (+z), 90 = west (-x)
+    pan = Math.max(-1, Math.min(1, ((dx / len) * -Math.cos(yaw) + (dz / len) * -Math.sin(yaw)) * 0.85));
+  }
+  return { gain: g * (userVol ?? 1), pan };
+}
+
+function updateVoice() {
+  if (!me) return;
+  $("noServer").classList.toggle("show", !!posT && Date.now() - posT > 20000);
+  if (!inVoice) return;
+  const mine = pos(me), now = Date.now();
+  $("notInGame").classList.toggle("show", !mine);
+  const ids = new Set([...peers.keys(), ...[...present.keys()].filter((id) => id !== me)]);
+  for (const id of ids) {
+    const other = pos(id), d = dist(mine, other), here = isPresent(id);
+    const want = here && d <= cfg.hearing, keep = here && d <= cfg.hearing + 8;
+    let peer = peers.get(id);
+    if (peer && !keep) { closePeer(id, true); continue; }
+    if (peer && peer.state !== "connected" && now - peer.created > 15000) { closePeer(id, true); peer = null; }  // stuck: retry
+    if (!peer && want && me < id) call(id);          // the lower uuid makes the offer, so only one side ever calls
+    peer = peers.get(id);
+    if (peer && peer.gain) {
+      const s = spatial(mine, other, peer.userVol);
+      peer.gain.gain.setTargetAtTime(s.gain, audioCtx.currentTime, 0.15);
+      peer.pan.pan.setTargetAtTime(s.pan, audioCtx.currentTime, 0.15);
+    }
+  }
+  const conn = [...peers.values()].filter((p) => p.state === "connected").length;
+  const near = positions.filter((p) => p.uuid !== me && isPresent(p.uuid) && dist(mine, p) <= cfg.hearing).length;
+  $("vstat").textContent = (muted ? "Mic muted. " : "") + (conn ? `Connected to ${conn} nearby player${conn > 1 ? "s" : ""}.` :
+    near ? "Connecting to nearby players…" : "In voice. Nobody in voice is close to you yet.");
+}
+function tick() { updateVoice(); renderPeople(); }
+
+function makePeer(id, cid) {
+  const pc = new RTCPeerConnection({ iceServers: cfg.ice });
+  if (stream) stream.getTracks().forEach((t) => pc.addTrack(t, stream));
+  else pc.addTransceiver("audio", { direction: "recvonly" });
+  const gain = audioCtx.createGain(), pan = audioCtx.createStereoPanner(), analyser = audioCtx.createAnalyser();
+  gain.gain.value = 0; analyser.fftSize = 256;
+  gain.connect(pan); pan.connect(master);
+  const audio = new Audio(); audio.muted = true;   // Chrome only plays WebRTC audio into Web Audio when an element holds the stream
+  const p = { pc, cid, gain, pan, analyser, level: 0, state: "connecting", created: Date.now(), iceQ: [], audio, userVol: 1 };
+  pc.ontrack = (e) => {
+    const ms = e.streams[0] || new MediaStream([e.track]);
+    audio.srcObject = ms; audio.play().catch(() => {});
+    const src = audioCtx.createMediaStreamSource(ms); src.connect(gain); src.connect(analyser);
+    const buf = new Uint8Array(analyser.fftSize);
+    (function lvl() {
+      if (peers.get(id) !== p) return;
+      analyser.getByteTimeDomainData(buf); let m = 0; for (const v of buf) m = Math.max(m, Math.abs(v - 128));
+      p.level = m / 128; setTimeout(lvl, 150);
+    })();
+  };
+  pc.onicecandidate = (e) => e.candidate && signal(id, { type: "ice", cid, candidate: e.candidate.toJSON() });
+  pc.onconnectionstatechange = () => {
+    p.state = pc.connectionState === "connected" ? "connected" : pc.connectionState;
+    if (pc.connectionState === "failed") closePeer(id, true);
+    renderPeople(); updateVoice();
+  };
+  peers.set(id, p);
+  return p;
+}
+function closePeer(id, tell) {
+  const p = peers.get(id); if (!p) return;
+  peers.delete(id);
+  if (tell) signal(id, { type: "bye", cid: p.cid });
+  try { p.pc.close(); } catch {}
+  p.gain.disconnect(); p.pan.disconnect(); p.audio.srcObject = null;
+}
+function signal(to, data) { return addDoc(collection(db, "signals", to, "msgs"), { ...data, from: me, t: Date.now() }).catch((e) => console.warn("signal", e)); }
+
+async function call(id) {
+  const cid = Math.random().toString(36).slice(2, 10);
+  const p = makePeer(id, cid);
+  const offer = await p.pc.createOffer();
+  await p.pc.setLocalDescription(offer);
+  signal(id, { type: "offer", cid, sdp: offer.sdp });
+}
+let chain = Promise.resolve();
+function enqueue(m) { chain = chain.then(() => onSignal(m)).catch((e) => console.warn("signal handling", e)); }
+async function flushIce(p) { for (const c of p.iceQ.splice(0)) await p.pc.addIceCandidate(c).catch(() => {}); }
+async function onSignal(m) {
+  if (!inVoice || Date.now() - m.t > 30000 || !m.from || m.from === me) return;
+  let p = peers.get(m.from);
+  if (m.type === "offer") {
+    if (p) closePeer(m.from, false);
+    p = makePeer(m.from, m.cid);
+    await p.pc.setRemoteDescription({ type: "offer", sdp: m.sdp });
+    const key = m.from + "|" + m.cid;
+    p.iceQ.push(...(earlyIce.get(key) || [])); earlyIce.delete(key);
+    await flushIce(p);
+    const ans = await p.pc.createAnswer(); await p.pc.setLocalDescription(ans);
+    signal(m.from, { type: "answer", cid: m.cid, sdp: ans.sdp });
+  } else if (m.type === "answer") {
+    if (p && p.cid === m.cid && p.pc.signalingState === "have-local-offer") {
+      await p.pc.setRemoteDescription({ type: "answer", sdp: m.sdp }); await flushIce(p);
+    }
+  } else if (m.type === "ice") {
+    if (p && p.cid === m.cid) { if (p.pc.remoteDescription) await p.pc.addIceCandidate(m.candidate).catch(() => {}); else p.iceQ.push(m.candidate); }
+    else { const key = m.from + "|" + m.cid, q = earlyIce.get(key) || []; if (q.length < 50) q.push(m.candidate); earlyIce.set(key, q); }
+  } else if (m.type === "bye") {
+    if (p && p.cid === m.cid) closePeer(m.from, false);
+  }
+}
+
+// ---------------------------------------------------------------- direct messages
+let dmWith = null, dmName = "", unsubDm = null;
+const conv = (a, b) => [a, b].sort().join("_");
+const when = (t) => { const d = new Date(t), today = new Date().toDateString() === d.toDateString();
+  return today ? d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : d.toLocaleDateString([], { day: "numeric", month: "short" }) + " " + d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); };
+function markRead(id) { if ((threads.get(id)?.unread || 0) > 0) setDoc(doc(db, "inbox", me, "threads", id), { unread: 0 }, { merge: true }).catch(() => {}); }
+function openDm(uuid, name) {
+  dmWith = uuid; dmName = name;
+  document.querySelector('.tab[data-t="chat"]').click();
+  $("chatTitle").textContent = "Messages with " + name;
+  $("text").placeholder = "Message " + name + "…"; $("text").focus();
+  markRead(uuid); renderPeople();
+  unsubDm?.();
+  $("log").innerHTML = `<div class="empty">Loading…</div>`;
+  const q = query(collection(db, "dms", conv(me, uuid), "messages"), orderBy("t", "asc"), limit(300));
+  unsubDm = onSnapshot(q, (s) => {
+    if (dmWith !== uuid) return;
+    if (s.empty) { $("log").innerHTML = `<div class="empty">No messages yet. Say hi to ${esc(name)}!</div>`; return; }
+    $("log").innerHTML = s.docs.map((d) => { const m = d.data(), mine = m.from === me;
+      return `<div class="msg${mine ? " me" : ""}"><span class="n">${esc(mine ? myName : name)}:</span> ${esc(m.text)}<span class="t">${when(m.t)}</span></div>`; }).join("");
+    $("log").scrollTop = 1e9;
+    markRead(uuid);
+  }, (e) => { $("log").innerHTML = `<div class="empty">Couldn't load messages: ${esc(e.message)}</div>`; });
+}
+$("send").onsubmit = async (e) => {
+  e.preventDefault();
+  const text = $("text").value.trim();
+  if (!text || !dmWith) return;
+  $("text").value = "";
+  const t = Date.now(), to = dmWith, toName = dmName;
+  try {
+    await addDoc(collection(db, "dms", conv(me, to), "messages"), { from: me, text, t });
+    await Promise.all([
+      setDoc(doc(db, "inbox", to, "threads", me), { name: myName, last: text.slice(0, 80), t, unread: increment(1) }, { merge: true }),
+      setDoc(doc(db, "inbox", me, "threads", to), { name: toName, last: text.slice(0, 80), t, unread: 0 }, { merge: true }),
+      addDoc(collection(db, "notify"), { from: me, fromName: myName, to, text, t }),
+    ]);
+  } catch (err) { $("text").value = text; fail("Message not sent: " + err.message); }
+};
+function ping() {
+  try { const c = audioCtx || new AudioContext(), o = c.createOscillator(), g = c.createGain();
+    o.frequency.value = 880; g.gain.setValueAtTime(0.08, c.currentTime); g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + 0.25);
+    o.connect(g); g.connect(c.destination); o.start(); o.stop(c.currentTime + 0.25); } catch {}
+}
+
+// ---------------------------------------------------------------- speech captions (Chrome / Edge)
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let rec = null, lastCap = 0;
+const captionsWanted = () => SR && inVoice && stream && !muted && $("capOn").checked;
+function startCaptions() {
+  if (!SR) return;
+  $("capWrap").hidden = !inVoice;
+  if (rec || !captionsWanted()) return;
+  rec = new SR(); rec.continuous = true; rec.interimResults = false; rec.lang = navigator.language || "en-US";
+  rec.onresult = (ev) => {
+    for (let i = ev.resultIndex; i < ev.results.length; i++) {
+      if (!ev.results[i].isFinal) continue;
+      const text = ev.results[i][0].transcript.trim();
+      if (!text || Date.now() - lastCap < 1200 || !captionsWanted()) continue;
+      lastCap = Date.now();
+      fetch("/api/caption", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...sig, text }) }).catch(() => {});
+    }
+  };
+  rec.onend = () => { rec = null; if (captionsWanted()) setTimeout(startCaptions, 500); };
+  try { rec.start(); } catch { rec = null; }
+}
+$("capOn").onchange = () => { if (!$("capOn").checked && rec) rec.stop(); else startCaptions(); };
+setInterval(() => { if (SR) $("capWrap").hidden = !inVoice; if (captionsWanted() && !rec) startCaptions(); if (!captionsWanted() && rec) rec.stop(); }, 2000);
+
+// ---------------------------------------------------------------- pilot map
+let airports = [], pView = 6000;
+function fillDest() {
+  const sel = $("pDest"), cur = sel.value;
+  sel.innerHTML = airports.map((a) => `<option value="${esc(a.icao)}">${esc(a.icao)} · ${esc(a.name)}</option>`).join("");
+  if (cur) sel.value = cur;
+}
+function drawPilot() {
+  const c = $("pmap"); if (!c.offsetParent) return;
+  const g = c.getContext("2d"), W = c.width, H = c.height;
+  const mine = pos(me), f = mine && mine.fly;
+  const cx = mine ? mine.x : 0, cz = mine ? mine.z : 0;
+  if (f && f.route) { const d = airports.find((a) => f.route.includes("(" + a.icao + ")")); if (d) pView = Math.max(1500, Math.hypot(d.x - cx, d.z - cz) * 2.4); }
+  const k = Math.min(W, H) / pView, X = (x) => W / 2 + (x - cx) * k, Y = (z) => H / 2 + (z - cz) * k;
+  g.fillStyle = "#071018"; g.fillRect(0, 0, W, H);
+  g.strokeStyle = "#13283a"; g.lineWidth = 1;
+  const step = pView > 8000 ? 2000 : 500;
+  for (let x = Math.floor((cx - pView) / step) * step; x < cx + pView; x += step) { g.beginPath(); g.moveTo(X(x), 0); g.lineTo(X(x), H); g.stroke(); }
+  for (let z = Math.floor((cz - pView) / step) * step; z < cz + pView; z += step) { g.beginPath(); g.moveTo(0, Y(z)); g.lineTo(W, Y(z)); g.stroke(); }
+  g.font = "13px monospace"; c._hits = [];
+  for (const a of airports) {
+    const px = X(a.x), py = Y(a.z), dest = f && f.route && f.route.includes("(" + a.icao + ")");
+    g.fillStyle = dest ? "#ffd166" : "#4cc9f0"; g.fillRect(px - 4, py - 4, 8, 8);
+    g.fillText(a.icao, px + 8, py + 4); c._hits.push({ x: px, y: py, icao: a.icao });
+    if (dest && mine) { g.strokeStyle = "#ffd166"; g.setLineDash([6, 6]); g.beginPath(); g.moveTo(X(cx), Y(cz)); g.lineTo(px, py); g.stroke(); g.setLineDash([]); }
+  }
+  for (const p of positions) { if (!p.fly || p.uuid === me) continue; g.fillStyle = "#adb5bd"; g.fillText("> " + p.name, X(p.x) + 4, Y(p.z)); }
+  if (mine) {
+    const h = ((f ? f.hdg : (mine.yaw + 180)) * Math.PI) / 180;
+    g.save(); g.translate(W / 2, H / 2); g.rotate(h); g.fillStyle = f ? "#06d6a0" : "#888";
+    g.beginPath(); g.moveTo(0, -11); g.lineTo(7, 9); g.lineTo(0, 5); g.lineTo(-7, 9); g.closePath(); g.fill(); g.restore();
+  }
+  if (f) {
+    const eta = f.route && f.bps > 0.5 ? Math.round(f.dist / f.bps) : 0;
+    $("flyInfo").textContent = `${f.craft} · ${f.alt.toLocaleString()} ft · ${f.kt} kt · heading ${String(f.hdg).padStart(3, "0")}${f.ap ? " · autopilot" : ""}`
+      + (f.route ? ` · to ${f.route}, ${f.dist.toLocaleString()} m, ETA ${Math.floor(eta / 60)}:${String(eta % 60).padStart(2, "0")}` : "");
+  } else $("flyInfo").textContent = "Sit in a plane's pilot seat in game to see your flight here.";
+  g.fillStyle = "#567"; g.fillText(`${Math.round(pView / 100) / 10} km across`, 8, H - 8);
+}
+$("pmap").addEventListener("wheel", (e) => { e.preventDefault(); pView = Math.min(60000, Math.max(800, pView * (e.deltaY > 0 ? 1.25 : 0.8))); drawPilot(); });
+$("pmap").addEventListener("click", (e) => {
+  const c = $("pmap"), r = c.getBoundingClientRect(), x = (e.clientX - r.left) * c.width / r.width, y = (e.clientY - r.top) * c.height / r.height;
+  const h = (c._hits || []).find((q) => Math.hypot(q.x - x, q.y - y) < 14);
+  if (h) { $("pDest").value = h.icao; $("pMsg").textContent = "Picked " + h.icao + ". Press Fly me there."; }
+});
+async function pilotSend(icao) {
+  const r = await fetch("/api/pilot", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...sig, icao }) }).then((x) => x.json()).catch(() => ({ error: "network error" }));
+  $("pMsg").textContent = r.ok ? (icao === "cancel" ? "Route cancelled." : "Sent. Check your game chat for the slot booking.") : (r.error || "Failed");
+}
+$("pGo").onclick = () => $("pDest").value && pilotSend($("pDest").value);
+$("pCancel").onclick = () => pilotSend("cancel");
+
+// ---------------------------------------------------------------- land applications
+async function loadApps() {
+  const r = await fetch("/api/apply?" + new URLSearchParams(sig)).then((r) => r.json()).catch(() => ({}));
+  const list = r.applications || [];
+  $("appList").innerHTML = list.length ? "<b>Your requests</b>" + list.map((a) => `<div class="row">${esc(a.kind)} at ${a.x}, ${a.z}<span style="margin-left:auto" class="tag${a.status === "approved" ? " v" : a.status === "declined" ? " u" : ""}">${esc(a.status === "new" ? "sent" : a.status)}</span></div>`).join("") : "You haven't asked for anything yet.";
+}
+$("appHere").onclick = () => {
+  const p = pos(me);
+  if (!p) { $("appMsg").textContent = "You need to be in the game to use your position."; return; }
+  $("appX").value = Math.round(p.x); $("appZ").value = Math.round(p.z);
+};
+$("appSend").onclick = async () => {
+  $("appMsg").textContent = "Sending…";
+  const body = { ...sig, kind: $("appKind").value, text: $("appText").value, x: +$("appX").value || 0, z: +$("appZ").value || 0 };
+  const r = await fetch("/api/apply", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).then((r) => r.json()).catch(() => ({ error: "network error" }));
+  $("appMsg").textContent = r.ok ? "Sent. Staff see it in game straight away." : (r.error || "Could not send.");
+  if (r.ok) { $("appText").value = ""; loadApps(); }
+};
+setInterval(loadApps, 30000);
+
+// ---------------------------------------------------------------- market
+let market = {};
+const money = (c) => "$" + (c / 100).toLocaleString(undefined, { maximumFractionDigits: 2 });
+function renderMarket() {
+  const q = ($("mkSearch").value || "").toLowerCase();
+  const list = (market.listings || []).filter((l) => !q || String(l.item).toLowerCase().includes(q)).slice(0, 80);
+  $("mkAge").textContent = market.t ? "· updated " + Math.round((Date.now() - market.t) / 1000) + " s ago" : "";
+  $("mkList").innerHTML = list.length ? list.map((l) => {
+    const left = Math.max(0, l.endsAt - Date.now()), h = Math.floor(left / 3600000), m = Math.floor(left / 60000) % 60;
+    const priceTxt = l.auction ? `bid ${money(l.bid || l.price)}${l.bidder ? " (" + esc(l.bidder) + ")" : ""}${l.buyNow ? " · buy now " + money(l.buyNow) : ""}` : money(l.price);
+    return `<div class="row"><span style="flex:1"><b>${esc(l.item)}</b> <span class="note">from ${esc(l.seller)} · ${h}h ${m}m left</span><br>${priceTxt}</span>` +
+      (l.auction ? `<button data-bid="${+l.id}" type="button">Bid</button>` : "") + ((!l.auction || l.buyNow) ? `<button data-buy="${+l.id}" type="button">Buy</button>` : "") + "</div>";
+  }).join("") : `<p class="note">Nothing for sale right now.</p>`;
+}
+$("mkSearch").oninput = renderMarket;
+$("mkList").onclick = async (ev) => {
+  const bid = ev.target.dataset.bid, buy = ev.target.dataset.buy;
+  if (!bid && !buy) return;
+  let amount = 0;
+  if (bid) { amount = parseFloat(prompt("Your bid in $:") || ""); if (!(amount > 0)) return; }
+  else if (!confirm("Buy this now?")) return;
+  $("mkMsg").textContent = "Sending…";
+  const r = await fetch("/api/market", { method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ...sig, kind: bid ? "bid" : "buy", listing: +(bid || buy), amount }) }).then((r) => r.json()).catch(() => ({ error: "network error" }));
+  $("mkMsg").textContent = r.ok ? "Sent. The result shows up on your in-game phone in a few seconds." : (r.error || "Failed.");
+};
+setInterval(renderMarket, 30000);
+
+// ---------------------------------------------------------------- stats
+function renderStats(d) {
+  if (!d) return;
+  const m0 = (c) => "$" + (c / 100).toLocaleString(undefined, { maximumFractionDigits: 0 });
+  const stocks = Object.entries(d.stocks || {}).map(([k, v]) => `${esc(k)} ${m0(v)}`).join(" · ");
+  const rich = (d.richest || []).map((r, i) => `${i + 1}. ${esc(r.name)} (${m0(r.cents)})`).join("<br>");
+  const mayors = Object.entries(d.mayors || {}).map(([c, n]) => `${esc(c)}: ${esc(n)}`).join("<br>") || "No mayors elected yet.";
+  $("stats").innerHTML = `<div class="kv"><b>Citizens</b><span>${d.players}</span><b>Clubs</b><span>${d.clubs}</span>
+    <b>Lottery</b><span>${m0(d.pot)}${d.lastWinner ? " (last winner: " + esc(d.lastWinner) + ")" : ""}</span>
+    <b>Charity</b><span>${m0(d.charity)}</span>${d.festival ? "<b>Event</b><span>Festival weekend, contracts pay 50% more</span>" : ""}
+    <b>Stocks</b><span>${stocks || "-"}</span><b>Richest</b><span>${rich || "-"}</span><b>Mayors</b><span>${mayors}</span></div>
+    ${(d.news || []).length ? "<h3 style='font-size:15px;margin:12px 0 4px'>SkyNews</h3>" + d.news.map((n) => `<div class="row">${esc(n)}</div>`).join("") : ""}`;
+  $("statsWhen").textContent = "· " + new Date(d.t).toLocaleTimeString();
+}
+
+start().catch((e) => fail("Something went wrong: " + e.message));
+</script>
+</body>
+</html>

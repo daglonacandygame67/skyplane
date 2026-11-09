@@ -1,0 +1,10 @@
+{
+  "name": "skyplane-smp-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SkyPlane SMP website, proximity voice chat and messaging (Vercel + Firebase Firestore)",
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "firebase-admin": "^12.7.0"
+  }
+}

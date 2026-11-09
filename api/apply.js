@@ -2,7 +2,7 @@
 //   POST /api/apply   body {u, n, e, s, kind, text, x, z}  -> stores the request (the signed /voice link proves who you are)
 //   GET  /api/apply?u&n&e&s                              -> your requests and their status
 // The Minecraft server picks new requests up through /api/positions and sends staff decisions back the same way.
-const { db, sign, safeEqual, readBody } = require("./_firebase");
+const { db, sign, safeEqual, readBody, broken } = require("./_firebase");
 
 function verify(q) {
   const { u, n, e, s } = q || {};
@@ -13,6 +13,7 @@ function verify(q) {
 }
 
 module.exports = async (req, res) => {
+  if (broken(res)) return;
   if (req.method === "GET") {
     const err = verify(req.query);
     if (err) return res.status(401).json({ error: err });

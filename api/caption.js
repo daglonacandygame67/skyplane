@@ -1,8 +1,9 @@
 // POST /api/caption  body {u, n, e, s, text}: a phrase recognised by the browser while the player talks in voice chat.
 // The Minecraft server collects captions through /api/positions and shows them above the player's head.
-const { db, sign, safeEqual, readBody } = require("./_firebase");
+const { db, sign, safeEqual, readBody, broken } = require("./_firebase");
 
 module.exports = async (req, res) => {
+  if (broken(res)) return;
   if (req.method !== "POST") return res.status(405).end();
   let b;
   try { b = JSON.parse(await readBody(req)); } catch { return res.status(400).end(); }

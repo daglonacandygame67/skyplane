@@ -1,9 +1,10 @@
 // POST from the Minecraft server (SkyExtras VoiceBridge): every second while players are online, every 15 s when empty.
 // Body: {t, clock, airports?, players:[{uuid,name,dim,x,y,z,yaw,area,fly?}], updates?:[{id,status,note}]}, header X-Signature = HMAC-SHA256(body, SERVER_SECRET).
 // Response: {ok, n, applications:[{id,uuid,name,kind,text,x,z}]} - new land requests made on the website, handed to the server once.
-const { db, sign, safeEqual, readBody } = require("./_firebase");
+const { db, sign, safeEqual, readBody, broken } = require("./_firebase");
 
 module.exports = async (req, res) => {
+  if (broken(res)) return;
   if (req.method !== "POST") return res.status(405).end();
   const raw = await readBody(req);
   if (!process.env.SERVER_SECRET || !safeEqual(sign(raw), req.headers["x-signature"] || "")) return res.status(401).json({ error: "bad signature" });

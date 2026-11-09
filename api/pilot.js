@@ -1,8 +1,9 @@
 // Pilot map: POST /api/pilot body {u, n, e, s, icao} -> the Minecraft server sets the autopilot route to that airport
 // and books the arrival slot from your ETA (within a second or two). The link fields come from /voice in Minecraft.
-const { db, sign, safeEqual, readBody } = require("./_firebase");
+const { db, sign, safeEqual, readBody, broken } = require("./_firebase");
 
 module.exports = async (req, res) => {
+  if (broken(res)) return;
   if (req.method !== "POST") return res.status(405).end();
   let b;
   try { b = JSON.parse(await readBody(req)); } catch { return res.status(400).end(); }

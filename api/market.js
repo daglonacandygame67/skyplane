@@ -2,7 +2,7 @@
 //   POST /api/market  body {u, n, e, s, kind: "bid"|"buy", listing, amount}  -> queued; the Minecraft server runs it within seconds
 //   GET  /api/market?u&n&e&s                                                -> your recent actions and their results
 // The listing snapshot itself is the Firestore doc world/market, written by /api/positions every 30 s.
-const { db, sign, safeEqual, readBody } = require("./_firebase");
+const { db, sign, safeEqual, readBody, broken } = require("./_firebase");
 
 function verify(q) {
   const { u, n, e, s } = q || {};
@@ -13,6 +13,7 @@ function verify(q) {
 }
 
 module.exports = async (req, res) => {
+  if (broken(res)) return;
   if (req.method === "GET") {
     const err = verify(req.query);
     if (err) return res.status(401).json({ error: err });

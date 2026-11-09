@@ -111,7 +111,7 @@
 <nav>
   <div class="in">
     <a class="logo" href="#top"><img src="img/icon.png" alt="">SkyPlane SMP</a>
-    <div class="links"><a href="#about">About</a><a href="#update">Updates</a><a href="#cities">Cities</a><a href="#join">Join</a><a href="#graphics">Graphics</a><a href="#commands">Commands</a><a href="#rules">Rules</a></div>
+    <div class="links"><a href="#about">About</a><a href="#update">Updates</a><a href="#cities">Cities</a><a href="#join">Join</a><a href="#graphics">Launcher</a><a href="#commands">Commands</a><a href="#rules">Rules</a></div>
   </div>
 </nav>
 
@@ -129,6 +129,7 @@
     </div>
     <div class="actions">
       <button class="btn green" id="copy">Copy server address</button>
+      <a class="btn" href="#graphics">Get the launcher</a>
       <a class="btn" href="#join">How to join</a>
     </div>
   </div>
@@ -169,7 +170,7 @@
         <li>Live departure boards in every terminal.</li>
         <li>Aircraft lights: flashing red beacons and white wing-tip strobes whenever the engines are running.</li>
         <li>New smoother aircraft models with straight wing and tail edges.</li>
-        <li>An optional better-graphics installer with shaders, Distant Horizons, dynamic lights and sound physics (see below).</li>
+        <li>The SkyPlane Launcher: one click installs everything, with Full graphics (shaders, Distant Horizons, dynamic lights, sound physics) or Lite for older PCs (see below).</li>
         <li>Fixes: planes no longer show up as purple cubes, parked planes no longer turn on their own or break on restart, and one pilot can no longer book every runway slot.</li>
       </ul>
     </div>
@@ -266,32 +267,31 @@
 <section class="paper alt" id="graphics">
   <div class="wrap two">
     <div>
-      <h2>Better graphics (optional)</h2>
-      <p>Normal Minecraft works fine on SkyPlane SMP. If your computer can handle it, our installer sets up a separate "SkyPlane SMP" installation in the Minecraft Launcher with:</p>
+      <h2>The SkyPlane Launcher</h2>
+      <p>The easiest way to play. Download it, press <b>Play</b>, and it sets everything up for you:</p>
       <ul class="plain">
-        <li><b>Shaders</b> (Complementary Reimagined): real shadows, reflections on the terminal glass and wet runways, proper sunsets</li>
-        <li><b>Distant Horizons</b>: see whole cities and the next airport from cruising altitude instead of fog</li>
-        <li><b>Dynamic lights</b>: landing lights and lanterns light up what's around them</li>
-        <li><b>Sound physics</b>: engines echo in hangars and get muffled behind walls</li>
-        <li>Sodium for a much higher frame rate, plus smoother animations and connected glass</li>
+        <li><b>Minecraft 26.3 with Fabric</b>, plus Java, all downloaded and checked for you</li>
+        <li><b>The SkyPlane client mod</b>: the C key for aircraft controls</li>
+        <li><b>Full graphics</b>: shaders (Complementary Reimagined), Distant Horizons so you can see the next airport from cruising altitude, dynamic landing lights and realistic sound</li>
+        <li><b>Or Lite</b>: just the speed-up mods, for older PCs</li>
+        <li>Live server status and news, and <b>automatic updates</b> whenever we change the mods</li>
       </ul>
-      <p>It doesn't touch your normal Minecraft or your other mods. You need about 6 GB of free memory and a graphics card from roughly the last six years.</p>
+      <p>It keeps its own game folder, so it doesn't touch your normal Minecraft or your other mods. You need Minecraft: Java Edition. For Full graphics, have about 6 GB of free memory and a graphics card from roughly the last six years.</p>
       <div class="actions">
-        <a class="btn green" href="downloads/SkyPlane-Launcher.zip">Download the installer (Windows)</a>
-        <a class="btn" href="downloads/SkyPlane-SMP-Client.mrpack">Modrinth / Prism pack</a>
-        <a class="btn" href="downloads/SkyPlane-Client-Mod.jar">SkyPlane client mod only (.jar)</a>
+        <a class="btn green" href="downloads/SkyPlane-Launcher-Windows.zip">Download the SkyPlane Launcher (Windows)</a>
       </div>
-      <p style="font-size:14px;color:var(--soft);margin:12px 0 0">Already have Fabric? Drop the client mod into your <b>mods</b> folder. It adds the C key for aircraft controls and tells the server you have better graphics.</p>
+      <p style="font-size:14px;color:var(--soft);margin:12px 0 0">Other ways: <a href="downloads/SkyPlane-SMP-Client.mrpack">Modrinth / Prism pack (.mrpack)</a> &middot; <a href="downloads/SkyPlane-Launcher.zip">installer for the Minecraft Launcher</a> &middot; <a href="downloads/SkyPlane-Client-Mod.jar">client mod only (.jar)</a>. Already have Fabric? Drop the client mod into your <b>mods</b> folder.</p>
       <p style="font-size:14px;margin:12px 0 0;padding:10px 12px;border-left:4px solid #e0a020;background:rgba(224,160,32,.1)">These downloads are for playing on SkyPlane SMP only. Want the SkyPlane mods for your own server? Message <b>gcrobbie</b> on Discord.</p>
     </div>
     <div class="joinbox">
       <h3>Installing it</h3>
       <ol>
-        <li>Close the Minecraft Launcher.</li>
-        <li>Unzip <b>SkyPlane-Launcher.zip</b> and double-click <b>Install.bat</b>. It downloads everything from Modrinth and checks each file.</li>
-        <li>Open the launcher, pick the <b>SkyPlane SMP</b> installation and press Play. The server is already in your multiplayer list.</li>
+        <li>Unzip <b>SkyPlane-Launcher-Windows.zip</b> anywhere, such as your Desktop.</li>
+        <li>Open the <b>SkyPlane Launcher</b> folder and double-click <b>SkyPlane Launcher.exe</b>. If Windows shows "Windows protected your PC", click <b>More info</b>, then <b>Run anyway</b>.</li>
+        <li>Pick <b>Full</b> or <b>Lite</b> and press <b>PLAY</b>. The first time, it downloads about 1 GB.</li>
+        <li>The Minecraft Launcher opens with a <b>SkyPlane SMP</b> installation ready, so press Play there. The server is already in your Multiplayer list.</li>
       </ol>
-      <p style="font-size:14px;color:var(--soft);margin:10px 0 0">Using Prism Launcher or the Modrinth App? Import the .mrpack file instead. Too slow? Turn shaders off under Options, Video Settings, Shader Packs.</p>
+      <p style="font-size:14px;color:var(--soft);margin:10px 0 0">Press Play in the SkyPlane Launcher each time, so your mods stay up to date. Too slow? Switch to Lite, or turn shaders off under Options, Video Settings, Shader Packs.</p>
     </div>
   </div>
 </section>

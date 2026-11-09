@@ -15,11 +15,25 @@ function serviceAccount() {
   const raw = (process.env.FIREBASE_SERVICE_ACCOUNT || "").trim();
   if (!raw) return { problem: "FIREBASE_SERVICE_ACCOUNT is not set in Vercel" };
   let sa = null;
-  for (const t of [raw, raw.replace(/^'|'$/g, ""), (() => { try { return JSON.parse(raw); } catch { return null; } })()]) {
-    if (t && typeof t === "object") { sa = t; break; }
-    try { const o = JSON.parse(t); if (o && typeof o === "object") { sa = o; break; } } catch {}
+  const tries = [
+    raw,
+    raw.replace(/^'|'$/g, ""),
+    raw.replace(/^"|"$/g, "").replace(/\\"/g, '"'),                                   // pasted as a quoted, escaped string
+    raw.replace(/("private_key"\s*:\s*")([\s\S]*?)(")/, (m, a, b, c) => a + b.replace(/\r?\n/g, "\\n") + c),   // real line breaks in the key
+    (() => { try { return Buffer.from(raw, "base64").toString("utf8"); } catch { return ""; } })(),          // base64 of the file
+  ];
+  for (const t of tries) {
+    try {
+      let o = JSON.parse(t);
+      if (typeof o === "string") o = JSON.parse(o);                                     // double-encoded
+      if (o && typeof o === "object") { sa = o; break; }
+    } catch {}
   }
-  if (!sa) return { problem: "FIREBASE_SERVICE_ACCOUNT is not valid JSON - paste the whole file contents, starting with { and ending with }" };
+  if (!sa) {
+    const hint = raw.startsWith("{") ? (raw.trim().endsWith("}") ? "it starts with { and ends with } but something inside is broken" : "it starts with { but does not end with } - part of the file is missing")
+      : "it does not start with { - paste the file's contents, not its name or path";
+    return { problem: `FIREBASE_SERVICE_ACCOUNT is not valid JSON (${hint}, ${raw.length} characters). Open the .json file in Notepad, Ctrl+A, Ctrl+C, and paste it as the value` };
+  }
   if (sa.private_key) sa.private_key = sa.private_key.split("\\n").join("\n");   // literal \n pasted as text -> real newlines
   for (const k of ["project_id", "client_email", "private_key"]) if (!sa[k]) return { problem: `FIREBASE_SERVICE_ACCOUNT is missing "${k}" - use the file from Generate new private key` };
   return { sa };

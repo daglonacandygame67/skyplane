@@ -22,6 +22,12 @@ function serviceAccount() {
     raw.replace(/("private_key"\s*:\s*")([\s\S]*?)(")/, (m, a, b, c) => a + b.replace(/\r?\n/g, "\\n") + c),   // real line breaks in the key
     (() => { try { return Buffer.from(raw, "base64").toString("utf8"); } catch { return ""; } })(),          // base64 of the file
   ];
+  // extra text around the JSON (e.g. "FIREBASE_SERVICE_ACCOUNT={...}" pasted into the value box): keep just { ... }
+  const a = raw.indexOf("{"), b = raw.lastIndexOf("}");
+  if (a > 0 && b > a) {
+    const inner = raw.slice(a, b + 1);
+    tries.push(inner, inner.replace(/\\"/g, '"'), inner.replace(/("private_key"\s*:\s*")([\s\S]*?)(")/, (m, x, y, z) => x + y.replace(/\r?\n/g, "\\n") + z));
+  }
   for (const t of tries) {
     try {
       let o = JSON.parse(t);

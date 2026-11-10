@@ -1,255 +1,185 @@
 {
  "name": "SkyPlane SMP",
  "server": "skyplanesmp.trick-game.net",
- "mc": "26.3",
- "loader": "0.20.1",
- "launcherVersion": "1.0.2",
+ "mc": "1.21.1",
+ "loaderType": "neoforge",
+ "loader": "21.1.265",
+ "launcherVersion": "1.1.0",
  "msClientId": "708e91b5-99f8-4a1d-80ec-e746cbb24771",
  "discord": "https://discord.gg/bQUyRmxm3g",
  "icon": "data:image/png;base64,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",
  "files": [
   {
-   "path": "mods/fabric-api-0.166.0+26.3.jar",
-   "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/998R2rNP/fabric-api-0.166.0%2B26.3.jar",
-   "sha1": "7f16cfcd4ef3d225a21417907634957787b31a5f",
-   "size": 1797522,
+   "path": "mods/MTR-neoforge-4.1.0-beta.2+1.21.1.jar",
+   "url": "https://cdn.modrinth.com/data/XKPAmI6u/versions/9SDO8rYc/MTR-neoforge-4.1.0-beta.2%2B1.21.1.jar",
+   "sha1": "3c25af1f04b5a9178bafa505ffc2fd265525e60d",
+   "size": 110673298,
    "lite": true
   },
   {
-   "path": "mods/sodium-fabric-0.9.2+mc26.3.jar",
-   "url": "https://cdn.modrinth.com/data/AANobbMI/versions/bAZQdGpg/sodium-fabric-0.9.2%2Bmc26.3.jar",
-   "sha1": "9acfe851e36f4fb27d7c5baa224e8bd4e0334283",
-   "size": 1908068,
+   "path": "mods/Immersive Vehicles-1.21.1-24.0.0.jar",
+   "url": "https://cdn.modrinth.com/data/BCzBuhJ5/versions/B9xnlDrC/Immersive%20Vehicles-1.21.1-24.0.0.jar",
+   "sha1": "7050a332f18d390610029de28c13fb6139786607",
+   "size": 6131756,
    "lite": true
   },
   {
-   "path": "mods/iris-fabric-1.11.7+mc26.3.jar",
-   "url": "https://cdn.modrinth.com/data/YL57xq9U/versions/vTN4NRGW/iris-fabric-1.11.7%2Bmc26.3.jar",
-   "sha1": "fa03640ba1e4ef2f7ae3619c6373a06e46d0ba2c",
-   "size": 2850938,
-   "lite": false
-  },
-  {
-   "path": "mods/DistantHorizons-3.3.4-26.3-fabric-neoforge.jar",
-   "url": "https://cdn.modrinth.com/data/uCdwusMi/versions/TGgEbP9A/DistantHorizons-3.3.4-26.3-fabric-neoforge.jar",
-   "sha1": "310c0363068dfae18e91f799ed671a591b6ad49a",
-   "size": 28476894,
-   "lite": false
-  },
-  {
-   "path": "mods/sodium-extra-fabric-0.9.5+mc26.3.jar",
-   "url": "https://cdn.modrinth.com/data/PtjYWJkn/versions/fs5l9Q1U/sodium-extra-fabric-0.9.5%2Bmc26.3.jar",
-   "sha1": "f0201a1b67f3405de7152fec484228db45dcbece",
-   "size": 481973,
+   "path": "mods/immersive_aircraft-neoforge-1.7.0+1.21.1.jar",
+   "url": "https://cdn.modrinth.com/data/x3HZvrj6/versions/xO17G766/immersive_aircraft-neoforge-1.7.0%2B1.21.1.jar",
+   "sha1": "5cf33cd634a88ec5728668bf13421645f11fbbe4",
+   "size": 2543237,
    "lite": true
   },
   {
-   "path": "mods/reeses-sodium-options-fabric-2.2.5+mc26.3.jar",
-   "url": "https://cdn.modrinth.com/data/Bh37bMuy/versions/EfchygKx/reeses-sodium-options-fabric-2.2.5%2Bmc26.3.jar",
-   "sha1": "305aa813172358eb5e95d0a7af02a44326261226",
-   "size": 258082,
+   "path": "mods/Infrastructure_plus_v0.1.1_1.21.1_NeoForge.jar",
+   "url": "https://cdn.modrinth.com/data/u3ISyKch/versions/QlTDXKAM/Infrastructure_plus_v0.1.1_1.21.1_NeoForge.jar",
+   "sha1": "f930e372675b7768d5d343f325d2d021399506ba",
+   "size": 11096014,
    "lite": true
   },
   {
-   "path": "mods/entityculling-fabric-1.11.3-mc26.3.jar",
-   "url": "https://cdn.modrinth.com/data/NNAgCjsB/versions/X1g3VhTx/entityculling-fabric-1.11.3-mc26.3.jar",
-   "sha1": "45f47f7a067f5efd733a32767dc3d1d770678b2a",
-   "size": 1508547,
+   "path": "mods/icraft-neoforge-1.21.1-V0.3.2.jar",
+   "url": "https://cdn.modrinth.com/data/6PqUyF22/versions/5Jgdvfbs/icraft-neoforge-1.21.1-V0.3.2.jar",
+   "sha1": "c0b6fa91105b8fa7168e21c95a6e5a2bd5811f44",
+   "size": 650203,
    "lite": true
   },
   {
-   "path": "mods/ImmediatelyFast-Fabric-1.17.1+26.3.jar",
-   "url": "https://cdn.modrinth.com/data/5ZwdcRci/versions/3MP9UR23/ImmediatelyFast-Fabric-1.17.1%2B26.3.jar",
-   "sha1": "f565bbeb201f2305e81761429d3f1f47e1c3a321",
-   "size": 99586,
+   "path": "mods/cc-tweaked-1.21.1-forge-1.121.0.jar",
+   "url": "https://cdn.modrinth.com/data/gu7yAYhd/versions/KNdTEfUA/cc-tweaked-1.21.1-forge-1.121.0.jar",
+   "sha1": "946c83390aadfe0d8077198fcf22804cee206637",
+   "size": 3209662,
    "lite": true
   },
   {
-   "path": "mods/moreculling-fabric-26.3-1.9.1.jar",
-   "url": "https://cdn.modrinth.com/data/51shyZVL/versions/5jIORlSK/moreculling-fabric-26.3-1.9.1.jar",
-   "sha1": "2c768b910eb1cb3fcb880bcacc7dbf9c0678ce06",
-   "size": 297173,
+   "path": "mods/handcrafted-neoforge-1.21.1-4.0.3.jar",
+   "url": "https://cdn.modrinth.com/data/pJmCFF0p/versions/JfqnpP2Z/handcrafted-neoforge-1.21.1-4.0.3.jar",
+   "sha1": "8ecd27f1d66f9b742cfae3c8ffa773765f574b52",
+   "size": 7132842,
    "lite": true
   },
   {
-   "path": "mods/ferritecore-9.0.0-fabric.jar",
-   "url": "https://cdn.modrinth.com/data/uXXizFIs/versions/d5ddUdiB/ferritecore-9.0.0-fabric.jar",
-   "sha1": "eac76ff0f3753422c61b2c44487d0d195d88d4bc",
-   "size": 72677,
+   "path": "mods/automobility-0.5.0.h+1.21.1-neoforge.jar",
+   "url": "https://cdn.modrinth.com/data/rqIsPf9F/versions/PHugwn1A/automobility-0.5.0.h%2B1.21.1-neoforge.jar",
+   "sha1": "e4ebac6eb03c2657c53d1aa81685516a8275a398",
+   "size": 1331432,
    "lite": true
   },
   {
-   "path": "mods/modmenu-21.0.0.jar",
-   "url": "https://cdn.modrinth.com/data/mOgUt4GM/versions/kyy7dbrZ/modmenu-21.0.0.jar",
-   "sha1": "66ec40f1cd0c037ddca2b5fc6b4b976d479c18e8",
-   "size": 856779,
+   "path": "mods/voicechat-neoforge-1.21.1-2.6.22.jar",
+   "url": "https://cdn.modrinth.com/data/9eGKb6K1/versions/2s7zUspF/voicechat-neoforge-1.21.1-2.6.22.jar",
+   "sha1": "3b2001d8df61fe6dc03dcd5f5cd4a8f49821feb0",
+   "size": 4918442,
    "lite": true
   },
   {
-   "path": "mods/placeholder-api-3.2.0+26.3.jar",
-   "url": "https://cdn.modrinth.com/data/eXts2L7r/versions/lXytLqWj/placeholder-api-3.2.0%2B26.3.jar",
-   "sha1": "4c455faa6333dbaef72cedbb91fe4a2a03176741",
-   "size": 254959,
+   "path": "mods/sodium-neoforge-0.8.13+mc1.21.1.jar",
+   "url": "https://cdn.modrinth.com/data/AANobbMI/versions/uMOpc5uV/sodium-neoforge-0.8.13%2Bmc1.21.1.jar",
+   "sha1": "1757289be21ed18db5b0d90703fa3db1b2de5693",
+   "size": 1292934,
    "lite": true
   },
   {
-   "path": "mods/cloth-config-fabric-26.3.159.jar",
-   "url": "https://cdn.modrinth.com/data/9s6osm5g/versions/fg2uyxOW/cloth-config-fabric-26.3.159.jar",
-   "sha1": "9a5cce069380a2047250831dcb19f4ef1b15872d",
-   "size": 1135009,
+   "path": "mods/iris-neoforge-1.8.14-beta.1+mc1.21.1.jar",
+   "url": "https://cdn.modrinth.com/data/YL57xq9U/versions/KduFYu4t/iris-neoforge-1.8.14-beta.1%2Bmc1.21.1.jar",
+   "sha1": "1bd129cf7bce65d6b1c0543045f0620c98a0f885",
+   "size": 2540723,
+   "lite": false
+  },
+  {
+   "path": "mods/DistantHorizons-3.3.3-1.21.1-fabric-neoforge.jar",
+   "url": "https://cdn.modrinth.com/data/uCdwusMi/versions/9w34y8ai/DistantHorizons-3.3.3-1.21.1-fabric-neoforge.jar",
+   "sha1": "4357b4d19fab818780c94f0e43dad1cc931634b2",
+   "size": 28289212,
+   "lite": false
+  },
+  {
+   "path": "mods/architectury-13.0.11-neoforge.jar",
+   "url": "https://cdn.modrinth.com/data/lhGA9TYQ/versions/1IiqEQGl/architectury-13.0.11-neoforge.jar",
+   "sha1": "008656a0702801174b8ec245ed7aad1921d6e9f1",
+   "size": 584734,
    "lite": true
   },
   {
-   "path": "mods/yet_another_config_lib_v3-3.9.7+26.3-fabric.jar",
-   "url": "https://cdn.modrinth.com/data/1eAoo2KR/versions/s9SjoFu1/yet_another_config_lib_v3-3.9.7%2B26.3-fabric.jar",
-   "sha1": "e54d86dd4a78f95cd6ec0309d96fae01e661c00d",
-   "size": 1125377,
+   "path": "mods/skinrestorer-2.11.1+1.21-neoforge.jar",
+   "url": "https://cdn.modrinth.com/data/ghrZDhGW/versions/VW4OYPBP/skinrestorer-2.11.1%2B1.21-neoforge.jar",
+   "sha1": "1926e526d84143daab4afcc3bb109caa385261ae",
+   "size": 286154,
    "lite": true
   },
   {
-   "path": "mods/continuity-3.0.1+26.3.jar",
-   "url": "https://cdn.modrinth.com/data/1IjD5062/versions/Jt2sCWTQ/continuity-3.0.1%2B26.3.jar",
-   "sha1": "63d51781b2c87e3b4b4ca98a133db8c98d3f2afb",
-   "size": 1002033,
+   "path": "mods/resourcefullib-neoforge-1.21-3.0.12.jar",
+   "url": "https://cdn.modrinth.com/data/G1hIVOrD/versions/x99nCLTm/resourcefullib-neoforge-1.21-3.0.12.jar",
+   "sha1": "24389c8e48ff0e8594e4686b750c494c66a5f8df",
+   "size": 484332,
    "lite": true
   },
   {
-   "path": "mods/lambdynamiclights-4.13.0+26.3.jar",
-   "url": "https://cdn.modrinth.com/data/yBW8D80W/versions/rylKnJ4M/lambdynamiclights-4.13.0%2B26.3.jar",
-   "sha1": "18c8ab40f03219bfcf809a83db6e3958ed8bb866",
-   "size": 1345715,
-   "lite": false
-  },
-  {
-   "path": "mods/sound-physics-remastered-fabric-1.5.2+26.3.jar",
-   "url": "https://cdn.modrinth.com/data/qyVF9oeo/versions/gA7nKz5g/sound-physics-remastered-fabric-1.5.2%2B26.3.jar",
-   "sha1": "71bd05396d44481fd48171c6d24e047285a93781",
-   "size": 202171,
-   "lite": false
-  },
-  {
-   "path": "mods/AmbientSounds_FABRIC_v6.3.11_mc26.3.jar",
-   "url": "https://cdn.modrinth.com/data/fM515JnW/versions/LFUkYKC1/AmbientSounds_FABRIC_v6.3.11_mc26.3.jar",
-   "sha1": "fff553cf5aef69026b1b25d1435da39e9097a2f3",
-   "size": 84825097,
-   "lite": false
-  },
-  {
-   "path": "mods/CreativeCore_FABRIC_v2.14.24_mc26.3.jar",
-   "url": "https://cdn.modrinth.com/data/OsZiaDHq/versions/7YUEsxpw/CreativeCore_FABRIC_v2.14.24_mc26.3.jar",
-   "sha1": "d4e8c3ab82a2d44d0de89fda635677b402eaebc3",
-   "size": 1422113,
-   "lite": false
-  },
-  {
-   "path": "mods/PresenceFootsteps-1.14.0+26.3.jar",
-   "url": "https://cdn.modrinth.com/data/rcTfTZr3/versions/UUNiN7Tm/PresenceFootsteps-1.14.0%2B26.3.jar",
-   "sha1": "2747a6c39d42ef4024a26bb43fc17be5f1eb86b5",
-   "size": 5760504,
-   "lite": false
-  },
-  {
-   "path": "mods/particlerain-4.0.3+26.3-fabric.jar",
-   "url": "https://cdn.modrinth.com/data/nrikgvxm/versions/ddleyxF8/particlerain-4.0.3%2B26.3-fabric.jar",
-   "sha1": "7b77b734bc5cbfc48307a2876d5c4e1cb193444b",
-   "size": 628245,
-   "lite": false
-  },
-  {
-   "path": "mods/visuality-0.7.15+26.3.jar",
-   "url": "https://cdn.modrinth.com/data/rI0hvYcd/versions/BNe9kpJ7/visuality-0.7.15%2B26.3.jar",
-   "sha1": "9c6c1554114150464716b8a82da8a8872ea3db8e",
-   "size": 81970,
-   "lite": false
-  },
-  {
-   "path": "mods/entity_model_features-3.3.12-26.3-fabric.jar",
-   "url": "https://cdn.modrinth.com/data/4I1XuqiY/versions/vF6qLXsA/entity_model_features-3.3.12-26.3-fabric.jar",
-   "sha1": "2d076285c7e0671165fc86a827e62ce88ddcd201",
-   "size": 665386,
-   "lite": false
-  },
-  {
-   "path": "mods/entity_texture_features-7.2.7-26.3-fabric.jar",
-   "url": "https://cdn.modrinth.com/data/BVzZfTc1/versions/svwZ2o4d/entity_texture_features-7.2.7-26.3-fabric.jar",
-   "sha1": "29f48f42d72007ce13b4678fac5b2ef5986879e4",
-   "size": 798322,
-   "lite": false
-  },
-  {
-   "path": "mods/skinlayers3d-fabric-1.11.4-mc26.3.jar",
-   "url": "https://cdn.modrinth.com/data/zV5r3pPn/versions/gjM2TO0L/skinlayers3d-fabric-1.11.4-mc26.3.jar",
-   "sha1": "1eef5b7a4b931c236c117def1c6b867be0443116",
-   "size": 1892299,
-   "lite": false
-  },
-  {
-   "path": "mods/EuphoriaPatcher-1.10.5-r5.9.3-fabric.jar",
-   "url": "https://cdn.modrinth.com/data/4H6sumDB/versions/YYczPGkW/EuphoriaPatcher-1.10.5-r5.9.3-fabric.jar",
-   "sha1": "3e2d5b02476337413fb1afba9bf74f9383338daf",
-   "size": 4602936,
-   "lite": false
-  },
-  {
-   "path": "shaderpacks/ComplementaryReimagined_r5.9.3.zip",
-   "url": "https://cdn.modrinth.com/data/HVnmMxH1/versions/Bqen1mJX/ComplementaryReimagined_r5.9.3.zip",
-   "sha1": "838139b54cddb56b2e83cd260d8efd960ac536d6",
-   "size": 553397,
-   "lite": false
-  },
-  {
-   "path": "resourcepacks/Faithful 32x - 26.3.zip",
-   "url": "https://cdn.modrinth.com/data/w0TnApzs/versions/lDYpMiqk/Faithful%2032x%20-%2026.3.zip",
-   "sha1": "0f20dfdff314da4da3bdf365f66718e8c344075b",
-   "size": 13116019,
-   "lite": false
-  },
-  {
-   "path": "resourcepacks/Clear Glass 1.3.0.zip",
-   "url": "https://cdn.modrinth.com/data/Mqy1I80f/versions/cSvPz6kf/Clear%20Glass%201.3.0.zip",
-   "sha1": "45c8b2a23040bfdf498a8cb7fb50795fb4415a01",
-   "size": 153437,
+   "path": "mods/mccoasters-1.10.jar",
+   "url": "https://cdn.modrinth.com/data/MWa9H4W4/versions/JI3Rdrdj/mccoasters-1.10.jar",
+   "sha1": "fa4a9733cf770fff6f4d4b5c4b0f4377f32ff5c6",
+   "size": 3781291,
    "lite": true
   },
   {
-   "path": "resourcepacks/LowOnFire v26.2\u00a78.zip",
-   "url": "https://cdn.modrinth.com/data/RRxvWKNC/versions/yQdcUfnr/LowOnFire%20v26.2%C2%A78.zip",
-   "sha1": "96932a034fff4cd0cad08ba12db730450c4772da",
-   "size": 42760,
+   "path": "shaderpacks/photon_v1.4.zip",
+   "url": "https://cdn.modrinth.com/data/lLqFfGNs/versions/BnGklH5y/photon_v1.4.zip",
+   "sha1": "96c7730f5891a42e39bbf1f0f5a98fa99628a7fe",
+   "size": 3857333,
    "lite": false
   },
   {
-   "path": "resourcepacks/FreshAnimations_v1.11.2_26.1+.zip",
-   "url": "https://cdn.modrinth.com/data/50dA9Sha/versions/xfE3qfr5/FreshAnimations_v1.11.2_26.1%2B.zip",
-   "sha1": "8176a3c13963aac2adc1f12214ceabfc45127ab2",
-   "size": 778725,
+   "path": "resourcepacks/Patrix_1.21_32x_basic.zip",
+   "url": "https://cdn.modrinth.com/data/olO1TaXd/versions/iBo0eCWB/Patrix_1.21_32x_basic.zip",
+   "sha1": "9e04dc6ad908fc9c58ead17740d760e882aab73e",
+   "size": 63380206,
    "lite": false
   },
   {
-   "path": "mods/SkyPlane-Client-Mod.jar",
-   "url": "https://skyplane-snowy.vercel.app/downloads/SkyPlane-Client-Mod.jar",
-   "sha1": "41fd28a320f1bbf64bd19dfcf72d7b226c4b7937",
-   "size": 6557,
-   "lite": true
+   "path": "resourcepacks/Dramatic Skys Demo 1.5.3.36.6.zip",
+   "url": "https://cdn.modrinth.com/data/2YyNMled/versions/4MZQy9nc/Dramatic%20Skys%20Demo%201.5.3.36.6.zip",
+   "sha1": "8953223ba4d04261917b2e29bdcc1841297a5efa",
+   "size": 13912171,
+   "lite": false
+  }
+ ],
+ "manual": [
+  {
+   "name": "Immersive Flight Simulator (airliners)",
+   "page": "https://www.curseforge.com/minecraft/mc-mods/immersive-flight-simulator-ifs-immersive-vehicles/files",
+   "fileName": "Immersive-Flight-Simulator 2.1.2 21.jar",
+   "sha1": "57f4ca0ea0174e2d299faedc6d070d4387d185c4",
+   "size": 287286375,
+   "target": "mods/Immersive-Flight-Simulator-2.1.2.jar"
+  },
+  {
+   "name": "Golden Aerotransport (airliners and airport vehicles)",
+   "page": "https://www.curseforge.com/minecraft/mc-mods/golden-airport-pack-immersive-vehicles-content/files",
+   "fileName": "GoldenAerotransport 3.3.1 16.jar",
+   "sha1": "b83f462d1920ad7560c39ac277bc36b17d4452c3",
+   "size": 72054331,
+   "target": "mods/GoldenAerotransport-3.3.1-neoforge.jar",
+   "patch": {
+    "META-INF/neoforge.mods.toml": "bW9kTG9hZGVyPSJqYXZhZm1sIgpsb2FkZXJWZXJzaW9uPSJbNCwpIgpsaWNlbnNlPSJBbGwgcmlnaHRzIHJlc2VydmVkIgoKW1ttb2RzXV0KbW9kSWQ9Iml2YWlybGluZXJwYWNrIgp2ZXJzaW9uPSIzLjMuMSIKZGlzcGxheU5hbWU9IkltbWVyc2l2ZSBWZWhpY2xlcyAoTVRTL0lWKSAtIEdvbGRlbiBBZXJvdHJhbnNwb3J0IFBhcnRuZXJzaGlwIgpkaXNwbGF5VVJMPSJodHRwczovL3d3dy5jdXJzZWZvcmdlLmNvbS9taW5lY3JhZnQvbWMtbW9kcy9nb2xkZW4tYWlycG9ydC1wYWNrLWltbWVyc2l2ZS12ZWhpY2xlcy1jb250ZW50Igpsb2dvRmlsZT0iaW1nLnBuZyIKZGVzY3JpcHRpb249JycnR29sZGVuIEFpcnBvcnQgUGFjazogMToxIHJlYWxpc3RpYyBhaXJsaW5lcnMgYW5kIGFpcnBvcnQgdmVoaWNsZXMuIENyZWRpdHM6IENDIChmb3VuZGVyIG9mIElWLUFpcmxpbmVyIFBhY2spLCBPb2ZlcmluZSAob3duZXIgYW5kIG1vZGVsZXIpLCBIYXNoaW0gYW5kIFFXRTkwMDAgKG1vZGVsZXJzLCBsaXZlcmllcyksIE5heCAobW9kZWxlciwgSlNPTiwgc291bmQpLiBSZXBhY2thZ2VkIGZvciBOZW9Gb3JnZSAxLjIxLjEgZm9yIFNreVBsYW5lIFNNUCB0ZXN0aW5nIChkZXNjcmlwdG9yIG9ubHksIGNvbnRlbnQgdW5jaGFuZ2VkKS4nJycKCltbZGVwZW5kZW5jaWVzLml2YWlybGluZXJwYWNrXV0KICAgIG1vZElkPSJtdHMiCiAgICB0eXBlPSJyZXF1aXJlZCIKICAgIHZlcnNpb25SYW5nZT0iWzIyLjYuMCwpIgogICAgb3JkZXJpbmc9IkFGVEVSIgogICAgc2lkZT0iQk9USCIK",
+    "pack.mcmeta": "eyJwYWNrIjogeyJwYWNrX2Zvcm1hdCI6IDM0LCAiZGVzY3JpcHRpb24iOiAiR29sZGVuIEFlcm90cmFuc3BvcnQgUGFydG5lcnNoaXAgcmVzb3VyY2VzIn19"
+   }
   }
  ],
  "overrides": {
-  "options.txt": "dmVyc2lvbjo0NjcxCnJlbmRlckRpc3RhbmNlOjE2CnNpbXVsYXRpb25EaXN0YW5jZTo4Cm1heEZwczoxNDQKZ3JhcGhpY3NNb2RlOjEKZm92OjAuMjUKZ2FtbWE6MC42CmVudGl0eURpc3RhbmNlU2NhbGluZzoyLjAKYmlvbWVCbGVuZFJhZGl1czo1Cm1pcG1hcExldmVsczo0CnBhcnRpY2xlczowCmFvOnRydWUKZnVsbHNjcmVlbjpmYWxzZQpyZXNvdXJjZVBhY2tzOlsidmFuaWxsYSIsImZhYnJpYyIsImZpbGUvRmFpdGhmdWwgMzJ4IC0gMjYuMy56aXAiLCJmaWxlL0NsZWFyIEdsYXNzIDEuMy4wLnppcCIsImZpbGUvTG93T25GaXJlIHYyNi4yXHUwMGE3OC56aXAiLCJmaWxlL0ZyZXNoQW5pbWF0aW9uc192MS4xMS4yXzI2LjErLnppcCIsInNlcnZlciJdCnNvdW5kQ2F0ZWdvcnlfYW1iaWVudDowLjgKc291bmRDYXRlZ29yeV9uZXV0cmFsOjAuOAprZXlfa2V5Lnpvb206a2V5LmtleWJvYXJkLmMK",
-  "config/iris.properties": "ZW5hYmxlU2hhZGVycz10cnVlCnNoYWRlclBhY2s9Q29tcGxlbWVudGFyeVJlaW1hZ2luZWRfcjUuOS4zLnppcAo=",
-  "config/DistantHorizons.toml": "W2NsaWVudF0KICAgIFtjbGllbnQuYWR2YW5jZWRdCiAgICAgICAgW2NsaWVudC5hZHZhbmNlZC5ncmFwaGljc10KICAgICAgICAgICAgW2NsaWVudC5hZHZhbmNlZC5ncmFwaGljcy5xdWFsaXR5XQogICAgICAgICAgICAgICAgbG9kQ2h1bmtSZW5kZXJEaXN0YW5jZVJhZGl1cyA9IDE5MgogICAgICAgICAgICAgICAgaG9yaXpvbnRhbFF1YWxpdHkgPSAiTUVESVVNIgo=",
-  "config/sodium-options.json": "ewogICJxdWFsaXR5IjogewogICAgIndlYXRoZXJfcXVhbGl0eSI6ICJGQU5DWSIsCiAgICAibGVhdmVzX3F1YWxpdHkiOiAiRkFOQ1kiCiAgfSwKICAiYWR2YW5jZWQiOiB7CiAgICAiZW5hYmxlX21lbW9yeV90cmFjaW5nIjogZmFsc2UKICB9Cn0=",
+  "options.txt": "dmVyc2lvbjozOTU1CnJlbmRlckRpc3RhbmNlOjEyCnNpbXVsYXRpb25EaXN0YW5jZTo4Cm1heEZwczoxMjAKZ3JhcGhpY3NNb2RlOjEKZm92OjAuMjUKZW50aXR5RGlzdGFuY2VTY2FsaW5nOjEuNQpiaW9tZUJsZW5kUmFkaXVzOjMKbWlwbWFwTGV2ZWxzOjQKYW86dHJ1ZQpndWlTY2FsZTozCnJlc291cmNlUGFja3M6WyJ2YW5pbGxhIiwibW9kX3Jlc291cmNlcyIsImZpbGUvUGF0cml4XzEuMjFfMzJ4X2Jhc2ljLnppcCIsImZpbGUvRHJhbWF0aWMgU2t5cyBEZW1vIDEuNS4zLjM2LjYuemlwIl0K",
+  "config/iris.properties": "ZW5hYmxlU2hhZGVycz10cnVlCnNoYWRlclBhY2s9cGhvdG9uX3YxLjQuemlwCg==",
   "servers.dat": "CgAACQAHc2VydmVycwoAAAABCAAEbmFtZQAMU2t5UGxhbmUgU01QCAACaXAAGnNreXBsYW5lc21wLnRyaWNrLWdhbWUubmV0CAAEaWNvbiVwaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQUVBQUFBQkFDQVlBQUFDcWFYSGVBQUFiMlVsRVFWUjRuTTE3ZVpSYzFYbm43OTUzMzFwTGQvWGVyZGFPRUVJTElObGd3RGdHUVhCc1owdzRzUjNuMkpQSk9JUEJCRHVaZU9iZ2laZHg0Z1JuTWpNZWcvRkNQUEU1aVVNd1pCamJNUjZJRFZqSVlwUEFnR2dKSWJSTDNhM2VxbXV2dDkwNzU3dXZxcnU2MUpJYTIzL2s2L05PdmVWdTMzZS8vYnZOY0FZd0JpaWw3OHhjbjVkYmVWRkhSN2JUOVZJWnk3UmNLQ1hCR01lL1JtaXNMUWlEV3ExYUtSVUt4ZGxxL3RocktzeFB0T1BXQk5ZMkJEMHJabVJ6dWVITlZ3ejBkZmNLeTh2NnlLejBWWHBOcUp3K01QV3ZFL2ttS0NaTlZwK3dXZm13amRLeEtLZ1d4eWVtSi9Nbjl6Nm40bUsraWVQWkNBQ1JYYmRoM1laTDMrNjZyanNWTDd1eEpQdCtYUjM0cGpqbnBPdHZCdzdjdS9UMzV4cW5GYzdYZDRuanI5bDArU2RydFZydDRQNlhmaFlWRCs1di9jWmFXY1B0ZTh1Vkd6ZGV0TEdpY3V0SDVZWlBNWG85OGhYZElqKzVvQjl5dlJ2ME8vcHRRdlA1WE8vYngyajlUaUEyZmx6U2J6VHlOYzFwclgwV2EzK3U4VnY3REc2NjRiK25XUDdBeU1ockk3V0pQYzgwY1JiTkc3TnovUVdidDJ6Y01DT1hYVHVKZGI5cmkzcEVmQklDb2psQmR1c241Z2FtKzBLWS9CWmZ2SHR1RWUzdkNaclA5THZsdlY4L1krR3Q3Wm13NWtTc2ZkN1c5cTFFT052NHpYWFN1S05zNjZkNjJjSDdOMjh4NU0vM2xDYkQyUU52RU81Q0t3V3pJNzN4MGl1dnFmRytqVlBzNHQ5MVdjMVh6TEtiOG5HaXVoQ2hKaFREMjg1WUtMVlpOZFFreUVMQ0ZNTkd2OFk0SjZxM0xYaFB3SVU1ZDk4K2IydDdRclE1OXR5NGJlTzNnbXRHL3BRaTNLTHhqWmRlcVY3YU5UNk9zRkRXMU82LzRHMWIwNW1NTThhMy9FZlhqQUlJeTJhR0FGMEVXMVp1d0xISGJ0TVR0cklaVFVqdlc1RnZaYjEyd2pUYk44ZWhjVnNYVHRBNmIzdjdka1NiYzdTK1gyeWR6dVdmQnVGRXVCR09oQ3ZoREJJNTd2Um5WcTlZMWp2SjF0ekVMWnUwS05leTM2VGNWWjlEN2VrL1c4Q0tKeWIzWTNtRDhpdHYvUHJjYzdNOUFmVjVabXJoRGpiYnQ3Tm5rNU0wQVZvNG9MMzlBLzl3MnhrRW8zWDlhUC8rYzQ0L042WlNuQXNMazFoejArb1ZsWW5KSS8wWmtWdSthYTJUenVXSzhmRDFKbE1Tc0Jkby9Nck96OHd2cUlISXJyR0ZyRXZJajB6dXg4YmVEUnJ4OUR1K2VNWkNXNS9QRktYNWUrcC90dlpOUXAxMTNMT016dzJyZVNzNHBDeXE0ZXNIMHljZkl0eEYvOEJBemplNlZpbWU0cHo1Z1FLYmE5MkVaOXEwNjVWdE1rMUF5Rk03K2xaKzZqUG5YQ2hCK3JvdjZkL3lFM2ZxOTQ4OVJzak5jd0tOY3o1RUYzdS8yRGkwaWMzNUdGUVVLOXZ5V2RlcS9vR0JRNkl6MTVXcDhxNDFuSnZnU25MVnd2N3RDTGV6MWkzYjdsN3dmbzR3alIyNFpkdkNmcTNQcmNxdXZWMXpqclAxWCtyNzFyVTI1Mk1rQnN4RVRYYXQ2Y3gxUGM5dStOQ2Q3eC9qRzI4cEdNdXZOK0JMZ0ovaDZjMys2QTZjRDNMdnVRZjVSK2JiM2ZqSmIrT3hyL3orM0hQbnUrOVpNQTQ5djVueDIvdWY3LzFpN1JLUU1vYk5PK0lUUHhtVUkvZXhHei84cHplUDhrMGZMeGpEMjg5R2dQTUJLYzB3bHZnM2IrM0ZiVGNPUXltbHZZdi8rK3c0L3VheFk0aVVnWlJqSVpiMFB1RXc4akdvM2ZuSFRzYW5Ycm9uQTZRaU5NN2ZkM0ZvRXVEazQwUHkxYThKbW9FSkRzWTU2QS82V2pxb3hzSnNidUFmZDU3QzBiRUMvdlNERnlMdENQejJWWU80YURpTi8vRzlOM0RvZEIzWmxJTmFxSFFmd1Jrc3dlZWM4bGJCbzNkNkpaeHBvdFVEaVVncWZVK0ltNElqNHhxUU1pRlFXM3l6a0hvdGpuOXpEZ21leEhNaGc5RFVaUnpjNEkwNDU4MFJZSDdoQ2owZE5uWWZuTWFmM1BjOC91d2psMkt3SzRYMVF5bDg1VDlzeHIwL09vb2QrMmF4YlhVSHJ0K1V3Zk9IcTlpeHZ3alhNaG9MVEViaWpSMnZCVEhLMVFoWlYyRFRxZ3o2T2kzMFpDeGNNT1RodFpNVlBMeHJGSjVqYUc2WUoxdmJ5bGl5UFZ6ZnQ4NlI0TW9ZZzZCM25JakFHWmlhWTdSZkNLVGs2T3p3Y0dRaWp6LzYyazU4NGQ5ZWpvMnJlaERKRUo5NDkwcmNzREdMd1U2QlhFcGdxaFRpeVpHb0lSTEpCaEJVNnpIcVlZdzFBeTcrL2ZZaDNIQkpONFo2WE5oaWZsMTNmUDBseURnQVUyYUNvK2FBNXRYRW53TzBvYXg1MFVZblJLQTVDV2N3UUdqcEl1VDVMOFlCQzJqT09WUU1aRHR6S0pSbThhbjdkdUcvZkdnYnJyMXNCVTZPNXpHUU5lRFlOcjY5NHlUdWYrbzR1anBTZWpja00xRDJZNzI0TGFzeUd2SDN2S1VIengwSjhPcDRqSlg5Q2ZJangyYnhpYTgraTVjT3o2QTc0eUlPZ3dRUktHZ1hwa0VBcFhmY1NDNU80UTY1Tm9hK05ONms1Z2huTkRpQS9Zb0lRTnZCdUFrbE9WSWRYZkNyUlh6K083c3hYYXpoNW1zdXhFeXhCdHNTK01BN1ZxSHExL0dqRjhhaGZBVXZMYkI5U3c4K2RNMEFmdjNTTHJ4OElzQzcvK2NKNUNzU243MXBRQS85ajQ4ZndILzkyNmN4VTZ3aWwzWVErd0VNSVdBWURBWWpxYVpjU0lNQWlrRXFBUWtCS1UwbzJBQTNLY09qdVNFaFFzTHNRck1HTjhBTTQ1Y1dnV1pmelFtU3cwa2JFS2FKTDM5L0JGUEZPajcyM2kybzFrTmtYUk4zdnY4eXJCMDhndEZpakkvK3hqcGN0anFyKzRheHduUTV4c2V1NjhOTmx6cll2ZThFZnV2VGU3RGp4Y05JT3dZeWxvQ01hakJOQVp0ejJJYUNMU1JNTG1Id2hBQ1JaQWlsZ1VBS0JOTFNJaWpoUU5JR2dZaVFXQ21RRG1pYUdkSzRiNFlER2lMVW9vVGF2aHRFQkFPQ2MzUmJKcjZ6NHdoT1RwZHgrMjllQW9lUVVDSCs0RGN1UWwrM285dFhmUW5INWpBTmhtc3VzUERvc3dmeHZqdGZ3dlA3VHVrZHpxV3RSSzl4QmR0VThPd0lhVWNoNjBpa2JRWEhVakNOUkIxRU1WQUxHY28rUjhrUFVJbEMrQ3JXbGtRUjhrYWNqQVhpQVBveDNwd0lVTWQ2SlBWa25zMzFiN3NsSWdJWndrQWNjNVNxZ0pYdHhXZ3hRajBLY2ZIcWJyaXVnRzF4MUVOQ2lPbHhqbzZYOE4wbjl1bnI0SWxwdUNaSEx1dUFzY1JTa0o1MGhFTGFqdEdWaXRHVGtlakpNSFNtR05JT2g5bFFsRUdvVUtwTHpKWWxwc29CcGlzU3M3NUVOUVpDcFNDVlN5NXhpd2hvRHVEZ1N5RUFPU0pTNGVKbG50NnRGNDlWNEpoYzIzVGlCcTNUeWNSR0NyTjFxWkc0YmtzZmZ1ZktIbHkvcFVjakVjU0p1WXNpcGYyQkE4ZG44STN2djRELzkreGhUTXlVNGJrbUJycXpVRnhBTWFIWFJseGc4UkFaeTBkdlNtS29VMkZaTjhkQXA0R3VyRURhcFRVd3ZSRkJwRkN1eHBncXhoalB4L0R5TVVUQngzU05vU0tKYTMxQUpRR0UwRWFBMkorNFlJazZnQ2E1ZWwwR0g5emFnUi91TGVEdm41M0NaQ2xDMmhXSVlvVktOVVozMnNKN3QzWGhnMWYwWU92cXRPNUh1MDFTYUJra3A3UVFCZHRnK1ByRHorR3JEKy9HeXFFZTlQWjBRaGtXbUdIcktDN2h6QmdtYWtqekFOMHBpZUVjc0xxZlkwV3ZpWUV1RTUwcERzOW1XaStRRFFpQ0dCWGZRSGVIUk5ZTFlWdGtibU5JQkpBMWpvZ0lnRWkzYlhBQTF6TEw1TkpFd09RSzMvclpKRjRmcStDUHR2Zmo2Z3ZTK1BhdUNmeDQzeXg2TzFQNDZPVnJjZk5XRDZ0N2tnQ2tHa2pOSlk3SmtDOEgrTWtMUjNEOXR0WEllRW5nV2E3NTZPM0t3dkl5VUlZSHcvWTBBYlMzcGlMd3VBSmJTV1NzQ0gwWmllVTlIS3Y2QlZiMFd1anBNTkRaMFlGVU9nY2hIQkNKbzdDT1Nta2FhYmNNMjB4TVhoaUhxRWN4L0RpQUgva3dKSmxkUmZGeElseWEwa3QyaFpYV3lFOGV5T1BBYUI2M3ZiTWZILysxUVZ4L3lVcGNmb0hBZ0QwQ0tkYWpHZ2g0Rm9ObmNSeWZLT09ocHc3Zy9oKy9pbEtsaHVzdVc5WDBWSEZ5dWdLWUxxU1ZnZVYxZ0psdUl2Y3lBb3NrRENYaHNBZ2Rib3krTEREWVpXQ3cyMEp2cDBCLzN5RGNkRitEYzNVK0ZZYnB3WFk3WWRsakFDWVF4aVlxZFlsQ05VYXhIcUdzQXJBNGJPV0FoaTh3SDNJc1FRdzR1aklXamt6TzRvbER3THUyU1Z4Zy9oK0lnOTlGNUZjaHJud0FubkR4MHFFcDNQL0Vmanp5ekJ1WXlKZGhHaHlyaDNJd0RKSnJZS2JrNDIwWHJjQy8yOTZGSCs0cllmZW9STXBPNmkrSzVDU1dFQ3lDSXlKa0hJV3VERWRQaDBBdXpkRGQxUVUzMHc4MGRuTnU3WXJZbXlIZE1ZUXdyS1BteitvK1hRV0ZpWkxDVEJRaENoTmlDVzBPaUFqRUJiVDdTeW42cUlSUGxMU1F5Mlh4eHhzZlJ2ZXhmMEZVRlpETDNnL1cvMXY0eVV0RmZPZnhSN0hqNWVPbzFBS2tQUnU5M1ozd2xRSEQ3WUFwREJ3K2tjZkJvek40NzF2V29PcUg0S3lvdFhPaW9STTd4U0MxQXJRTklneVE5VGl5bm9HMFk4Skw5YlNZbjlhTm02OTlwRE05U0JXS3lMb0dNbTRFejVLd0RJcWl5QlNxaGl1c3pXQkRDUzZTRUdrRjNaNlJwOFhoeHhFY0htRHMxT3RZYy9rdE1EZmRqRXBzNEEvdnVoK1B2alFHdy9LUWRpMzBkT2VnU0tsWkxreG13OHFrdGVLdDFTT3RDQi80MlFIOGRQOEVDdEpCS3BPREpOWW54MHg3bGdCWENzSUFMQk93TFlvaUFkdTJZUWlMZHVHc0t5WGlrRjZ3YlF1V0dldStGRk9RdnhBeXBUY3h5ZitSL0pNMzJBd2V6aHhLS3lSaXREQ0tvY0k2c3J5R2RWa2ZmVzZFQjA1K0dQZU1WUEdYdjErQWFTZzg4dUlvdXJ0eUVNVEtoZ3R1dTFvdURjc0JsSURwMlloaWlZM3JlbEZURXY5d3p3aFNxUlNjaksxWnZ4a1I2cHZHeHRBRzZhQ3RSV1NYSXE1SmUrcmJEUHJtM1dCb1AwQUhTZzBsMkVLQUJHbGlRS1lYUzRHSGh5cVdPejZXZFVkSW1RcWxnT05JMmNGWUNaaVlsbkJjQitOam8xaWVyaU0wRFRDdkM0YWQxanZQaEFYREVJaGpCa0Yyc0FIRldxaDMwL1U4TU5NQnQ1d2tmVVh1dERMMHhrQ1NwMC9taTlhU21OQXdEQklsU1Q3K0dhSHcvTTdGVVlnd2lrQWlIK3EraEJPeFZVSUZvWE1CRFZlWXRBQTlVMTR3bGtBVUJqQmxEUU5XSGNQWkFEbEh3WThaUnFzV1RzN1ltQTFObUV5aTI2bGc0MXFCd1U0YnovMThCb2FUUnV6bFlLUnpNS3hVZ2hETm95Mk5oR0VZalNnT21DelV0VjdJV2lrWWJoYkNvZmFXemhZcDRybFlRRWxUWjVYcUVVUEZWNmo2RkRhSDhPdEZPR1FCWkxnSU41QWVFYWpYQ3FqNUVhcDFoV3BBNitlSWlQRTU2WC9lY0lRb2FqUUZWQ2dReEJJOHFxSFRxR0k0NDZQWFMyUnNvbVppOTdTTktkL1c5TTZaQVM3TGxESG9oWWpqQ0RGTElXVWJlUG9FTUdHdFJWK21DN0JjR0hiaXlqWlVCNWdrRjFtbktEU1Vhd0U2TXk2eTJUUjgwOVBpUW9SU1Vtb0NLR0ZDU2dzQlRGU0NBSVZhakh3NTF0WmdkbllDdlVRNEt3WElhT0hXYzRHd1Bvdlp3alNLVlNCZmlWRWdUekRrQ0dGQnNVaHpnWTRGUXNVUUJIVmtveG1zOFFJTWVCRnNBNWp4RFl3VVhKeXVPL0FWUjhZSWNXRzJnbVZlQUZkSUZBT09RMlVIUjBzVzFpL3J3SjZqWll4TUFaMmRHVUNZNEtZRmJoaHpZcVZsbXlNeGdRMVZzMlZRNEMvZU53U3JZd0JmZkNwT2xCK3hwK1lRQVVnYktuWVF4QTVLWVlDcGlzVHBva1RHaTJHSkFJd2RRV2R1QUxiVGtjVC81QXJKR1BYeUZQTDUwNWd1UnBnb3hKZ29LRXhYT01xUmhaQTVNRVNrclo0Z09Sb3ladENYYzVCaE5WU2tpZU5WRjZOMUIrWFloTU5qREhsMURIdDFkRm94YWpIRFdOWEVlTjFCQlI2NGFjUHQ1RGhkalhIci9VY1IrUW9XN2JwcGd3dlJRS2FoVitZSWtDZ21ZblB5QTZiTHdLWmhrbnMwdEgrU3JsSXdJVTBMa0M0aStLakVBYWFyTVZLekVXd1JONUt4QWFyMUUvRGNDVmk2c2dYNFFWMmIza0pWNFhRK3dvbnBDS01GWUxvbVVGVU9JaU1GZ3dmYUFSVDlUZ0FySlRFYjI5aGJkRkNJSFhDbTBHdlZjYkZiUVk4ZDZpQm5zaTd3eG95SGd2SUE0Y0wwRExqYTNCS3JLdmlSZ21sYk1EaEZpVW9USmlGQXd2NU54VXBzWUZCd1E5cWRRY3VuWXh0YU1YRkJlUW10aVJycExOSVZaQm5JWElhb1JSSHlnWVFvMXNBWUtiWkllM2k1dElHVVhZTVFWVTJBTUdhbzFKTzh3dmlzeEtrOHcxaEpZRGIwNExNMHBKa0dVN1hFQ2hRaWdaT3pPWlJsRGwyOGdFM3BJZ2FjQUNaVG1Ba01qQlJUbUlrOVJJWUwwN0hnOEhta0d3RzZSc3lnU0N4SjVTYnNUa1ZPVWpTaytCb0UwS1lvSmx2T0VjV3hUcE1WeXhYWWxnVk9acGlUM1U5Mlgrc3d4VUN1aVlTcjNkeUlTWlJqQlZZblZWclhCQ2xVSlRwVGxCTWcvMEM3VUVrMFdGZVlxUUJUWlliSmlrQStjRkZsR1VSR0dzeE9nYW1DVm42aUxnMnNURlhRMnpPRnRLcWdGQXNjclRxWUlHcHhqNHFxTURubFVhUjJMSkxEUS9OS3JNWGdKczRVVlhhYjNpWDVEZ3FvVS9pclBUeUd1bUtvUmdxUDc4M2oxVU5qNEpIQXVxd05JVXd3b2JSKzBHTTFVMXVrTklrSWxPNWlaUDRZU3JHQnlCZW94WFVVNmlIU0pRcTdLU0dTbUVNS3Qyc2hKVU1NRkFNVDVkaEJuYVVRQ2RKTnBHZzlJTEswSlJJRGRnRExDakVUbW5pMTBvVXFUMnQ3YkZvR1BDVHNQTC9ieWNMT2FuU1RCSFN5MjdRUUNReW1PYmF2NEtoR05pd2pRaFNGMkRYR3NkbzdqQzBYSHNCcitXNVVuVTF3SFFwOUpRSTU3NDNTYkpSelVHU2lPZjF5S0lNakRFMG9VbVp4RlpXYUQ5c1BHeW14eEdMRmtpT1FWT1l4NGNOQmFMaUlqUlNVU1NiV2hpTEhyRzdPaThEcGVpL3FxZVd3dkJBdXBiTEl2ZFJzZmo2a3p3NGtDUlJ3ZFhzTUdlSGkyczZuY2FpNkVoVm5HYnJUUG1DbW9kZ0FPanJTeUhsY2U0bXVFMkVnUTBuTWhJQityREJlanNGVkEzbE5BQU5LV0loREd6THlFRW9mVlJYQWlDTXdjbDYwc0JnNjB5eXBIWGNBNFlBSmNyQWNMWlprV3NrNk1iSUNBWE5oT3k2WUk0QWdhQ1FNNTczQlh4Z2EvZ1V0aWNwbStkQkRpaGNRSWdOaDJIakRYNDlDZFFNdTlGN0h0djREMkZPN0Z1dDdmZHl4TFlWcVNBRUx3MlFOK1BOZEZWMFJvcXFWYXVRWkNRRmwya0FVUU1ZaHBBd1JVVDYrR1Jkb2Y5ZWd1QmhNSjFlc3hyMTJlM1Ivc2piZ1RPY3M1L0pZU2I3OFYzTUtybW55TkJFVVlDTEFjdTg0Um1PQmt0eU1xM3RlUWI2V1JqN01JRGF5T3FNckRJNERrd3l6ZFFISENHQ1NYQXVPT0VxeXVPU3FLeHJRRUhTcXFlRWpFT0p4ZzJzYkxySFdQNFJndzVXbVg3MFlTdm9velVYelNWR1diQlg3RlJGQXh5ak5wQ2dsU3htRFo5VHgwNW0zNDIyZHp5UGx4SHFLdXZJUXdOVW1VYnZqWENHRWdYZjI3SUdqSnZGaThUSWNENGZCaklMT1ZUYTVVZXQ1UlVsU090NlU2S2o1ck93OEFab1ZvTG1xMEFKWHRMRXpyTDB3OGtzU2dLWXZSMHF2aFVKWkNrQm9PQ3BRclBST29TNDkxSUpPZUNiSHZ0SUZxQVVjYTkxRDRLeXM1UllzUlNkMGNLeTJFcTRSb0p2TlFqSUtvdUpHc3FaWlZXNFFRbGQ3a2hlTFZBYmJRdnVXZTQxcm96U0dacGhJM2huWm0rWVd2bG5raWMwNWNPTnlVNmV1Q2VteENrY1VGRkdOSEZ5UmV4a2pwWFdZRGdlUmN4NkNJN2JEa0IwWUM0YkFpaXZnMmJNUVloUVdhdGhUMklwdDJSRXN0NnJ3Y1JFaVdaL3pKaTBTRlVvVnRtbW9KYTlhczJaTGJSRDQ1VGhnOSsxdldmRDgzQ0p0SGxqazNXKy9jSVdtV0MxaWlKV05xOVpmcWQvLzNadWFIWGpydlh2ZVpJOFdEZ0FSSUphY3FZZ0pFSnMxYzJ0dkR2S1RuejNuOTF6dm55OW9SOC9idDcwTEUvcytqN0h5Q3J4ZXZ2eU03MHNkbHpiZ3luc1hJL3ZaSUlreUNXZkVrbE13eEF4RnRwYkNTYnFXeGdFN2I3OTZmc2pSM2Vkc2Urdlc0L2pHaXl2bTJqV2YreTcrd3NLbHRYMWY2cmpQM0g0RnJybDMxNUxXclEyemluU3RRY21JSlFSQXhDaTR3SGs1Z0pTTm5DTlNmakk1bTVQcnZVY3Y1bnlMbFg1ZDM5LzEyRi9qcmthLzFuR2lJM3NYYmYvWld4Y1hqTlp4YUVPdXZmZkpoamQ2TG8xQUNkR0lxZ2VNY0Njanl3MHRBcFFuT2Q5Rk1ZRU5zNkY5Z3dPNzlkWGNpZk9CRE9yNmF1M1hPazd6ZTN2N3MwSDdPRS9lZmkxTVhmTS9QeTZFTStLSVJDQm1sQm9XRktaUmVibFJZajRUR0pTY2daUXZJSXFmVFJib1U0a3BnYVVRNGZPTjlsLzRUOS9YdjNjOStwbGtCL3YrVHZmLy9GKy9ieUhCV3NZbmFCLy84NHZNTDlRNGpYZ09zMEFpRUNPQ1pES09tQWlEZ0JtejQ1QldDbEtIWHZaY2hXVXV2MDdIVVl3MHBtYS9CTU42RHA3YjNWamcyWGVuQ2RmK3R3R0Vzb2FmM1ZrNG8zMTF6MEtaLzJ6YjkvT052OWozazRjL2gxVnIvMWZqQk5vaVZGQ2s3Q1BJT0tLMEd4TXBXV0ZYRFNnc1h5VXhObE5DTFN4Q0dCUnZOd29nRExvTVJyVzFnNmQ3c2ZlSWg1bStwTEs2N04zNzllTHZldWdQOVRQdFppdmsxdjRBVC83bmNWejNwV0U2MUg0R083YythNWtQVmkvNi9Wemp0K3NlOTBBTmFsa0ZwdXRxSk04Z0FmMVhqVXBpQnhYSFRQUm5YYjZxdjFOdEdNNWg3VURuWExhMkZYU05Fc0JWd3gvQno1OFp4bE83SHNUUXpTbjh5OE1WdlhPZjNyTzRMVzd1N0JOM25seVVwWmY2WER6UCtLMUUrTDEzZmdRN2k0ZFFrU3RndTY1T3JpNmtnazcwZzZ0UUtSbHpVYTNXZ3NuSjZlblZLMWVnNHNmUzBCbUpNOGpXT0c0V1kvT1YxMkI4OUNpT3YvSThQdnFlRmZqZmorekh5ZytPTG1vRjd2cmJqeVF5ZnVtT1pPbzJEbWp2ZHpZTythc3Z2N1FvQVZxSjBJVDFXemFqbzFESEk2OGVSMkNzaENuRWdweUdVckUwRUhGVUM5Tit2UnJ3Zkg2MmRIcHM3RWdjeFlpaldEVisyeTZwZjhNZ1JPRDd1T3dkTjJMNzczMFM3L3JRN2ZqaGc5L1NFeSttQUdmMjdOWlhFMG1TMlhhNWJlM1gvbjJ4OW1lREgvelR0L0NEZjdvUHBWSUZmYmswdGc0NkNBcW5rMFNyb2dJckhZbVQ0REpXVkJrSTg2ZU9sQXF6SlRFNU9Ua3pldXJrc1ZJMW9LalZVT2M2Z2hwRlZDMkI1MldReVhRZ2ptTkVTdUo3RDk2SG16NXd5eGxFK0pNMkxTMzloVExlVG9UVzlrdXhBcTFBMVo4a2tVam5qU0lNZFhlZys5UXhWTWFyV3F4ckZGUjVHZGkyYTZCZWw3V3BVOGZ5VTVNell0L0lLNjhQRHk5Yjg5cisxMzU2OFlaMTE5WHFZY1FGSGE1YnBOWkNtakZXVUZFZEgvaHdvcGpPQmVkU2VrMTQ0S0hrSHh4KzUvMjNMYW45ZDcvejFUTW5vb05SWVppRXZjS0FDa0pZd3NDdlhUU0lLQ0tuQnlpVWF6ZzBjU0thOHJ1RW54OS9vbHpJejV4OGZlL3JZbWI2OU16RXhPVFVudDNQL1BPNmRhdXYwd2RYWkJKL1V3MXVJUmc2dlVTMUJJTDhJNnZPU1lEY2U0NHVsUEZGMkRrSXdybEQwKzNmRjJzZlVvRlBJOTJJLzNWZDA5QzFSMzFSUFZOekErRGFKcGhEcmhHUXk3Z1k3TXFvZzJONS9HVEhqbitlR1RzNVZTMU16T2lkZnU3WlhjL251bnJXZlA4SGo5eno5bmRlZDBlOVV2R1pZZGpwRkIyRWFwN2xiWUdHcFJoNzRkeVIySzFicXd1MHRBcjhNeEdpY3dFTlFyZC9YN1E5N2JTMlRFWlNjNlJVVjdQMlFKWFQxdjU2NFkyemcxSGtweDNUUHYzNnkvZGtURlkvK09xZTUrbTkvcmU1U25sMmR1ZlRUKy9jZkZuQVJzdlJnOHMzWC82QlNuNHN2bVM0QzhzSHVnMDZ6ZFVNSDF1cGNmSG5lcFlVQXpSbDl4c3ZKcyt0SU9tTXdGbkdXMno4R0UzRUJlTG1RY1c0dFM2NEVDVFZ5ZWdmcHdTM24zNzJ1UWNQSFRxMC80VVhkdStzbEF1elNWMjhrYitaT0hsdzVPang0L3NMRTZkMm5IajErYnZ0N2lGam9sUXp0T1lQZ3REM2d6andBeGtFeWZYTisrN1c2MTVLREVEd3RhOThjZEgyZmhCSXVyNXh6MTJMZm05L2pwa2h3MWhLdlphNkx3UGZuMXRUeXhYN3ZoK0dZVVMxUDROSmFUejYyR04zdi9MeXl6c092bkZ3LzZHREl5UE4vNWRrTFdOcnYzZGcxY1dYWEx6NTBtdE0yM1k2ZXBmZDhOWk42N2V2SHVpWksraTNIMGo1ZzQvOThaSUk4TTJ2L3BWT1hONTZ4NmZiQ1BNWHVvUTJQbm9TT3gvOUhoNS80Y1E1eC9tYmIzNTV3WUxQQllGVThhSFhEenkrZCs4clAvYURvTDczbFovdlBQekd2cGRiejlDd3RqNzZnKzExOXF6YnRQWHFqbzZPSGt1STdGQi83NHJoWlVPcnM5bHNiM0xHWWo0M3Q2Qno4MWgrQzh3MW9Xd3NwYTRwaXp1WHZFeHFFQk5qb3hoNThSblVTN1BvV2JjWjN0QmFPb3lIdE1XUXRpMEl3ZUU1RG13clVXak5jYU9RWEYybWo5cVRTVTd1bWF5V0s1T1RVeE5IcHFhbWpsY3FsV0t4VUpqYXUvZkZYWlh5N05SNS8za2FMZjlpN21WN2xnMnVXTFBCOWRLZHRtVm1UR0c2VUxyNndHMWh3TEVXL29PWkg5SnBERnBJY2doUzZteHN3N0hVbzlLeGRxVkxYYnA5cFlBd0NPQjI5ZXZUSTRZNVgwY2t5YVY2d0J5VmxZU01LUXVjYUl5NXM0Mk5mNzFKcXNrMHJlSit0VnBESEpZQ3Z6NTcvTmpoL2NYQzFLbDIzSnJ3L3dGalovNmd4dlBEY0FBQUFBQkpSVTVFcmtKZ2dnPT0BAA5hY2NlcHRUZXh0dXJlcwEAAA=="
  },
  "news": [
   {
    "date": "10 Nov 2026",
-   "title": "The SkyPlane Launcher is here",
-   "text": "One click installs Minecraft 26.3, Fabric, the SkyPlane client mod and the graphics mods, and keeps them all up to date. Choose Full for shaders and far view distance, or Lite for older PCs."
+   "title": "SkyPlane v9: the big rebuild",
+   "text": "SkyPlane is now a full modpack: realistic airliners (Immersive Vehicles with Immersive Flight Simulator and Golden Aerotransport), Immersive Aircraft, MTR trains and stations, a working phone and PCs, and realistic shaders and textures. Press Play and the launcher sets everything up."
   },
   {
-   "date": "9 Nov 2026",
-   "title": "Walk around the cabin",
-   "text": "Airliners now have real cabins: seats with screens, galleys, cabin crew who bring you drinks, and you can walk around in flight. Press C for aircraft controls."
+   "date": "10 Nov 2026",
+   "title": "Mini Singapore is being built",
+   "text": "Changi Airport, Marina Bay Sands, Gardens by the Bay, Universal Studios and HDB estates, linked by MRT lines above and below ground. This test version is a flat world while the city is built."
   }
  ]
 }

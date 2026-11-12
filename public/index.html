@@ -4,270 +4,466 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SkyPlane SMP</title>
-<meta name="description" content="SkyPlane SMP is a Minecraft Java server with real airliners, MTR trains and Lion City, a city built at real scale.">
+<meta name="description" content="SkyPlane SMP is a kid-friendly Minecraft Java city server: fly airliners from Changi, drive cars, ride the MRT, take jobs and play mini-games in a real-size city.">
 <meta property="og:title" content="SkyPlane SMP">
-<meta property="og:description" content="A Minecraft Java server with real airliners, MTR trains and a city built at real scale.">
+<meta property="og:description" content="Fly, drive, work and play in Lion City - a real-size Minecraft city server.">
 <meta property="og:image" content="/img/icon.png">
 <link rel="icon" href="/img/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=VT323&display=swap" rel="stylesheet">
 <style>
   :root {
-    --paper: #f7f6f2; --ink: #16181d; --muted: #5d6169; --rule: #d9d7d0; --accent: #c8102e;
-    --board: #15171b; --board-ink: #f2c94c; --board-dim: #8b8f97;
+    --text: #ffffff; --muted: #c8c8c8; --dim: #8f8f8f; --yellow: #ffff55; --gold: #ffaa00; --green: #55ff55; --red: #ff5555; --aqua: #55ffff; --dark-red: #aa0000;
+    --panel: #c6c6c6; --panel-ink: #3f3f3f; --panel-hi: #ffffff; --panel-lo: #555555;
+    --btn: #6f6f6f; --btn-hi: #aaaaaa; --btn-lo: #3a3a3a; --btn-hover: #7e8ccf;
+    --list: rgba(0, 0, 0, .55); --shade: rgba(0, 0, 0, .62);
   }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) { --paper: #121316; --ink: #ecebe6; --muted: #9a9ea6; --rule: #2a2c31; --accent: #ef4a5f; --board: #0b0c0e; }
-  }
+  @media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --shade: rgba(0, 0, 0, .5); } }
+  :root[data-theme="dark"] { --shade: rgba(0, 0, 0, .62); }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.6 "IBM Plex Sans", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
-  a { color: inherit; text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 3px; }
-  a:hover { text-decoration-color: var(--accent); }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
-  .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  body {
+    margin: 0; color: var(--text); background-color: #3b2a1e;
+    background-image: linear-gradient(var(--shade), var(--shade)), url(img/dirt.png); background-size: auto, 64px 64px;
+    image-rendering: pixelated; font: 22px/1.25 "VT323", ui-monospace, monospace; -webkit-font-smoothing: none;
+  }
+  img { image-rendering: pixelated; }
+  a { color: var(--aqua); }
+  h1, h2, h3, .btn, .px { font-family: "Pixelify Sans", "VT323", monospace; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+  .shadow { text-shadow: 3px 3px 0 #3f3f3f; }
 
-  /* top bar */
-  .top { border-bottom: 1px solid var(--rule); }
-  .top .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 16px; }
-  .mark { display: flex; align-items: center; gap: 10px; font-weight: 600; text-decoration: none; letter-spacing: .01em; }
-  .mark img { width: 26px; height: 26px; image-rendering: pixelated; }
-  .nav { display: flex; gap: 24px; font-size: 14px; }
-  .nav a { text-decoration: none; color: var(--muted); }
-  .nav a:hover { color: var(--ink); }
-  @media (max-width: 720px) { .nav { display: none; } }
+  /* grass top bar */
+  .top { position: sticky; top: 0; z-index: 10; background: url(img/grass.png) repeat-x 0 0 / 48px 48px, #5a3d27; border-bottom: 4px solid #1d140d; }
+  .top .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 14px; }
+  .mark { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; font: 600 24px "Pixelify Sans", monospace; text-shadow: 2px 2px 0 #000; }
+  .mark img { width: 36px; height: 36px; border: 2px solid #000; }
+  .nav { display: flex; gap: 18px; font-size: 22px; }
+  .nav a { color: #fff; text-decoration: none; text-shadow: 2px 2px 0 #000; }
+  .nav a:hover { color: var(--yellow); }
+  @media (max-width: 860px) { .nav { display: none; } }
 
-  .btn { display: inline-block; padding: 11px 18px; font: 500 15px "IBM Plex Sans", sans-serif; text-decoration: none; border: 1px solid var(--ink); color: var(--ink); background: transparent; cursor: pointer; }
-  .btn:hover { background: var(--ink); color: var(--paper); }
-  .btn.solid { background: var(--ink); color: var(--paper); }
-  .btn.solid:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .btn.sm { padding: 7px 12px; font-size: 14px; }
+  /* Minecraft buttons */
+  .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 6px 20px; color: #fff; text-decoration: none; font-size: 19px; cursor: pointer;
+    background: var(--btn); border: 2px solid #000; box-shadow: inset 2px 2px 0 var(--btn-hi), inset -2px -3px 0 var(--btn-lo); text-shadow: 2px 2px 0 #3f3f3f; }
+  .btn:hover, .btn:focus-visible { background: var(--btn-hover); box-shadow: inset 2px 2px 0 #bdc6ff, inset -2px -3px 0 #3c4a8f; color: var(--yellow); outline: none; }
+  .btn.wide { min-width: 260px; }
+  .btn.green { background: #3f8f3f; box-shadow: inset 2px 2px 0 #7fd67f, inset -2px -3px 0 #1f4f1f; }
+  .btn.green:hover { background: #4fae4f; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; }
 
-  /* intro */
-  .intro { padding: 72px 0 64px; border-bottom: 1px solid var(--rule); }
-  .intro .wrap { display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; align-items: end; }
-  @media (max-width: 880px) { .intro .wrap { grid-template-columns: 1fr; gap: 40px; } }
-  h1 { font-size: clamp(34px, 5vw, 54px); line-height: 1.08; font-weight: 600; letter-spacing: -.02em; margin: 0 0 20px; max-width: 13em; }
-  .intro p { font-size: 18px; color: var(--muted); max-width: 34em; margin: 0 0 28px; }
-  .actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-  .fine { font-size: 13px; color: var(--muted); margin-top: 14px; }
+  /* hero */
+  .hero { padding: 56px 0 28px; text-align: center; }
+  .logo { font: 700 clamp(44px, 9vw, 96px)/1 "Pixelify Sans", monospace; letter-spacing: 2px; margin: 0; color: #e8e8e8;
+    text-shadow: 0 4px 0 #6b6b6b, 0 8px 0 #3d3d3d, 6px 10px 0 rgba(0,0,0,.5); }
+  .logo .sub { display: block; font-size: .42em; color: #cfcfcf; margin-top: 12px; letter-spacing: 6px; }
+  .splash { display: inline-block; color: var(--yellow); font: 600 22px "Pixelify Sans", monospace; text-shadow: 2px 2px 0 #3f3f00; transform: rotate(-12deg); margin: 6px 0 0 320px; animation: splash .6s ease-in-out infinite alternate; }
+  @media (max-width: 720px) { .splash { margin-left: 0; } }
+  @keyframes splash { from { transform: rotate(-12deg) scale(1); } to { transform: rotate(-12deg) scale(1.08); } }
+  @media (prefers-reduced-motion: reduce) { .splash { animation: none; } }
+  .hero p { max-width: 760px; margin: 22px auto 26px; color: var(--muted); font-size: 24px; }
+  .hero .actions { justify-content: center; }
+  .fine { color: var(--dim); font-size: 19px; margin-top: 12px; }
 
-  /* departure board */
-  .board { background: var(--board); color: var(--board-ink); padding: 18px 20px 14px; font-family: "IBM Plex Mono", monospace; font-size: 14px; }
-  .board .hd { display: flex; justify-content: space-between; color: var(--board-dim); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; padding-bottom: 10px; border-bottom: 1px solid #2b2e34; }
-  .board dl { margin: 0; display: grid; grid-template-columns: auto 1fr; }
-  .board dt, .board dd { margin: 0; padding: 9px 0; border-bottom: 1px solid #23262b; }
-  .board dt { color: var(--board-dim); padding-right: 20px; text-transform: uppercase; font-size: 12px; letter-spacing: .06em; align-self: center; }
-  .board dd { text-align: right; overflow-wrap: anywhere; }
-  .board dl > :nth-last-child(-n+2) { border-bottom: 0; }
-  .board button { background: none; border: 1px solid #3a3e45; color: var(--board-dim); font: 12px "IBM Plex Mono", monospace; padding: 2px 8px; margin-left: 8px; cursor: pointer; }
-  .board button:hover { color: var(--board-ink); border-color: var(--board-ink); }
-  .on { color: #6fdc8c; } .off { color: #ff7a7a; }
+  /* multiplayer screen */
+  .mp { margin: 34px auto 0; max-width: 860px; }
+  .mp h2 { text-align: center; font-size: 22px; margin: 0 0 10px; font-weight: 500; }
+  .serverlist { background: var(--list); border-top: 2px solid #000; border-bottom: 2px solid #000; padding: 10px; }
+  .entry { display: grid; grid-template-columns: 72px 1fr auto; gap: 12px; padding: 6px; border: 2px solid #fff; background: rgba(0,0,0,.25); text-align: left; position: relative; }
+  .entry img { width: 72px; height: 72px; display: block; }
+  .entry .name { font-size: 24px; color: #fff; line-height: 1.05; }
+  .entry .motd { font-size: 22px; line-height: 1.05; color: var(--dim); white-space: pre-wrap; overflow-wrap: anywhere; }
+  .entry .motd span { white-space: pre-wrap; }
+  .entry .right { display: flex; align-items: flex-start; gap: 8px; font-size: 22px; color: var(--dim); white-space: nowrap; }
+  .count { cursor: default; border-bottom: 1px dotted transparent; }
+  .count.has { border-bottom-color: var(--dim); }
+  .ping { display: inline-flex; align-items: flex-end; gap: 2px; height: 16px; margin-top: 3px; }
+  .ping i { display: block; width: 3px; background: #2f2f2f; box-shadow: 1px 1px 0 #000; }
+  .ping i:nth-child(1) { height: 4px; } .ping i:nth-child(2) { height: 7px; } .ping i:nth-child(3) { height: 10px; } .ping i:nth-child(4) { height: 13px; } .ping i:nth-child(5) { height: 16px; }
+  .ping.ok i { background: #55ff55; } .ping.bad i { background: #2f2f2f; }
+  .ping.wait i { animation: pinging 1s infinite; } .ping.wait i:nth-child(2) { animation-delay: .1s; } .ping.wait i:nth-child(3) { animation-delay: .2s; } .ping.wait i:nth-child(4) { animation-delay: .3s; } .ping.wait i:nth-child(5) { animation-delay: .4s; }
+  @keyframes pinging { 0%, 100% { background: #2f2f2f; } 50% { background: #55ff55; } }
+  .xmark { color: var(--red); font-size: 22px; line-height: 16px; }
+  .tip { position: absolute; right: 8px; top: 34px; z-index: 5; display: none; min-width: 180px; max-width: 280px; padding: 6px 9px; background: #100010f0; border: 2px solid #2a0a5e; outline: 2px solid #100010; color: #fff; font-size: 20px; white-space: normal; }
+  .entry:hover .tip.on, .count:focus + .tip.on { display: block; }
+  .mp .actions { justify-content: center; margin-top: 12px; }
+  .addr { font-size: 22px; color: var(--muted); text-align: center; margin-top: 8px; }
+  .addr b { color: #fff; font-weight: 400; }
 
-  /* sections */
-  section { padding: 64px 0; border-bottom: 1px solid var(--rule); }
-  .sec-head { display: grid; grid-template-columns: 220px 1fr; gap: 32px; margin-bottom: 28px; }
-  @media (max-width: 760px) { .sec-head { grid-template-columns: 1fr; gap: 6px; } }
-  .sec-head .no { font: 500 13px "IBM Plex Mono", monospace; color: var(--accent); padding-top: 8px; }
-  h2 { font-size: 28px; font-weight: 600; letter-spacing: -.01em; margin: 0 0 8px; line-height: 1.2; }
-  .sec-head p { margin: 0; color: var(--muted); max-width: 38em; }
+  /* sections and Minecraft GUI panels */
+  section { padding: 44px 0; }
+  .sec-title { text-align: center; margin: 0 0 22px; }
+  .sec-title h2 { font-size: clamp(28px, 4vw, 40px); margin: 0; color: #fff; text-shadow: 3px 3px 0 #000; }
+  .sec-title p { color: var(--muted); margin: 6px auto 0; max-width: 720px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+  .panel { background: var(--panel); color: var(--panel-ink); border: 2px solid #000; box-shadow: inset 3px 3px 0 var(--panel-hi), inset -3px -3px 0 var(--panel-lo); padding: 14px 16px 16px; }
+  .panel h3 { margin: 6px 0 4px; font-size: 21px; color: #2b2b2b; }
+  .panel p { margin: 0; font-size: 20px; color: #404040; }
+  .slot { width: 52px; height: 52px; background: #8b8b8b; border: 2px solid; border-color: #373737 #fff #fff #373737; display: grid; place-items: center; }
+  .slot canvas { width: 32px; height: 32px; image-rendering: pixelated; }
+  .card-head { display: flex; align-items: center; gap: 12px; }
+  .tag { display: inline-block; font-size: 17px; color: #fff; background: #3f3f3f; padding: 0 6px; margin-top: 6px; }
 
-  /* rows: label on the left, text on the right */
-  .rows { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
-  .rows li { display: grid; grid-template-columns: 220px 1fr; gap: 32px; padding: 18px 0; border-bottom: 1px solid var(--rule); }
-  @media (max-width: 760px) { .rows li { grid-template-columns: 1fr; gap: 4px; } }
-  .rows h3 { margin: 0; font-size: 16px; font-weight: 600; }
-  .rows p { margin: 0; color: var(--muted); max-width: 40em; }
-  .rows .when { font: 13px "IBM Plex Mono", monospace; color: var(--muted); }
-  .rows .step { font: 500 28px/1 "IBM Plex Mono", monospace; color: var(--accent); }
+  /* chat-style command list */
+  .chat { background: rgba(0,0,0,.55); padding: 12px 14px; font-size: 22px; max-width: 900px; margin: 0 auto; }
+  .chat div { padding: 1px 0; }
+  .chat .c { color: var(--yellow); } .chat .d { color: #fff; } .chat .s { color: var(--dim); }
+  .chat-cols { columns: 2 380px; column-gap: 28px; }
+  .chat-cols div { break-inside: avoid; }
 
-  .note { margin-top: 24px; padding-left: 16px; border-left: 3px solid var(--accent); color: var(--muted); max-width: 46em; }
+  /* jobs table */
+  .tbl { width: 100%; border-collapse: collapse; font-size: 21px; color: #404040; }
+  .tbl th, .tbl td { text-align: left; padding: 7px 8px; border-bottom: 2px solid #8b8b8b; vertical-align: top; }
+  .tbl th { color: #2b2b2b; font: 600 18px "Pixelify Sans", monospace; }
+  .tbl td:first-child { color: #2b2b2b; white-space: nowrap; }
+  .scroll { overflow-x: auto; }
 
-  /* manual setup */
-  .split { display: grid; grid-template-columns: 1fr 1.3fr; gap: 40px; align-items: start; }
-  @media (max-width: 880px) { .split { grid-template-columns: 1fr; } }
-  .facts { margin: 0 0 20px; display: grid; grid-template-columns: auto 1fr; border-top: 1px solid var(--rule); }
-  .facts dt, .facts dd { margin: 0; padding: 10px 0; border-bottom: 1px solid var(--rule); }
-  .facts dt { color: var(--muted); padding-right: 24px; }
-  .facts dd { font-family: "IBM Plex Mono", monospace; font-size: 14px; text-align: right; }
-  .tbl-wrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 15px; }
-  th, td { text-align: left; padding: 9px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
-  th { font: 500 12px "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); border-bottom-color: var(--ink); }
-  td:last-child, th:last-child { text-align: right; color: var(--muted); padding-left: 16px; white-space: nowrap; }
-  .tag { font: 12px "IBM Plex Mono", monospace; color: var(--accent); margin-left: 6px; }
-  code { font: 14px "IBM Plex Mono", monospace; }
+  /* maps */
+  .maps { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+  .map { margin: 0; }
+  .map img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; border: 4px solid #000; outline: 4px solid #6f6f6f; background: #222; }
+  .map figcaption { text-align: center; margin-top: 8px; color: var(--muted); }
 
-  details { border-bottom: 1px solid var(--rule); padding: 16px 0; }
-  details:first-of-type { border-top: 1px solid var(--rule); }
-  summary { cursor: pointer; font-weight: 500; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+  /* steps */
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .num { font: 700 34px "Pixelify Sans", monospace; color: #3f8f3f; }
+
+  /* changelog: book & quill */
+  .book { max-width: 860px; margin: 0 auto; background: #f4ecd8; color: #2b2214; border: 4px solid #5a3d27; box-shadow: inset 0 0 0 4px #c9b48a; padding: 16px 22px; }
+  .book article { padding: 12px 0; border-bottom: 2px dashed #c9b48a; }
+  .book article:last-child { border-bottom: 0; }
+  .book .when { color: #8a6d3b; font-size: 19px; }
+  .book h3 { margin: 2px 0 4px; font-size: 22px; color: #3b2a12; }
+  .book p { margin: 0; font-size: 21px; }
+
+  /* mods */
+  .mods { columns: 3 230px; column-gap: 18px; font-size: 21px; }
+  .mods a { color: #2b4fa8; }
+  .mods div { break-inside: avoid; padding: 2px 0; }
+  .mods small { color: #6b6b6b; font-size: 17px; }
+
+  details { background: rgba(0,0,0,.5); border: 2px solid #000; margin-bottom: 8px; padding: 10px 14px; }
+  summary { cursor: pointer; color: #fff; list-style: none; font-size: 23px; }
   summary::-webkit-details-marker { display: none; }
-  summary::after { content: "+"; font-family: "IBM Plex Mono", monospace; color: var(--muted); }
-  details[open] summary::after { content: "−"; }
-  details p { margin: 10px 0 0; color: var(--muted); max-width: 44em; }
+  summary::before { content: "▶ "; color: var(--yellow); }
+  details[open] summary::before { content: "▼ "; }
+  details p { color: var(--muted); margin: 8px 0 0; }
+  .faq { max-width: 900px; margin: 0 auto; }
 
-  footer { padding: 40px 0 56px; font-size: 14px; color: var(--muted); }
-  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; }
+  /* advancement toast */
+  .toast { position: fixed; right: 16px; top: 80px; z-index: 20; display: flex; gap: 10px; align-items: center; width: 300px; max-width: calc(100vw - 32px); padding: 8px 12px; background: #212121; border: 2px solid #000;
+    box-shadow: inset 2px 2px 0 #555, inset -2px -2px 0 #111; transform: translateX(130%); transition: transform .5s; }
+  .toast.show { transform: none; }
+  .toast .t1 { color: var(--yellow); font-size: 20px; } .toast .t2 { color: #fff; font-size: 20px; }
+  @media (prefers-reduced-motion: reduce) { .toast { transition: none; } }
+
+  footer { padding: 30px 0 44px; color: var(--dim); text-align: center; font-size: 19px; background: rgba(0,0,0,.35); border-top: 4px solid #000; }
+  footer a { color: var(--muted); }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 </style>
 </head>
 <body>
 <header class="top">
   <div class="wrap">
     <a class="mark" href="#top"><img src="img/icon.png" alt="">SkyPlane SMP</a>
-    <nav class="nav"><a href="#server">The server</a><a href="#start">Getting started</a><a href="#manual">Manual install</a><a href="#news">Changelog</a><a href="#faq">FAQ</a></nav>
-    <a class="btn sm" href="downloads/SkyPlane-Installer.exe" download>Download</a>
+    <nav class="nav"><a href="#things">Things to do</a><a href="#jobs">Jobs</a><a href="#maps">Maps</a><a href="#start">Join</a><a href="#news">Updates</a><a href="#faq">FAQ</a></nav>
+    <a class="btn" href="downloads/SkyPlane-Installer.exe" download>Download</a>
   </div>
 </header>
 
-<div class="intro" id="top">
-  <div class="wrap">
-    <div>
-      <h1>Airliners, trains and a city built at full scale.</h1>
-      <p>SkyPlane is a Minecraft Java server. Fly real airliners out of Changi, ride the MTR across Lion City and live in towers that are as big as the real thing. The launcher installs the game, the mods and the shaders for you.</p>
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <h1 class="logo">SKYPLANE<span class="sub">SMP</span></h1>
+      <div class="splash" id="splash">Now with cars!</div>
+      <p>A kid-friendly Minecraft city server. Fly airliners out of Changi, drive across Lion City, ride the MRT, take a job, buy a flat and play Among Us with your friends - all in a city built at real size.</p>
       <div class="actions">
-        <a class="btn solid" href="downloads/SkyPlane-Installer.exe" download>Download for Windows</a>
-        <a class="btn" href="#manual">Manual install</a>
+        <a class="btn green wide" href="downloads/SkyPlane-Installer.exe" download>Download for Windows</a>
+        <a class="btn wide" href="#start">How to join</a>
       </div>
-      <p class="fine">Free. Needs Minecraft: Java Edition. Windows 10 or 11. About 1.5 GB on first start.</p>
-    </div>
-    <div class="board" aria-label="Server status">
-      <div class="hd"><span>Server</span><span id="clock">--:--</span></div>
-      <dl>
-        <dt>Status</dt><dd id="status">Checking</dd>
-        <dt>Address</dt><dd><span id="addr">skyplanesmp.trick-game.net</span><button id="copy" type="button">Copy</button></dd>
-        <dt>Version</dt><dd>Java 1.21.1</dd>
-        <dt>Loader</dt><dd>NeoForge 21.1.265</dd>
-        <dt>Launcher</dt><dd>v1.1.1</dd>
-      </dl>
-    </div>
-  </div>
-</div>
+      <div class="fine">Free. Needs Minecraft: Java Edition. The launcher installs everything for you.</div>
 
-<section id="server">
-  <div class="wrap">
-    <div class="sec-head"><div class="no">01</div><div><h2>The server</h2><p>Built on community mods, credited in the manual install list below, with our own mod tying them together.</p></div></div>
-    <ul class="rows">
-      <li><h3>Lion City</h3><p>Everything is at real scale, one block to a metre. City-centre towers are 150 m across and up to 200 floors, with two-storey lobbies, furnished flats and lifts to every floor. There is a 320 m mall, condos, mansions on large plots, and roads with pavements and working traffic lights. Marina Bay Sands, Gardens by the Bay and Universal Studios are on the waterfront. Outside the city it is ordinary Minecraft land.</p></li>
-      <li><h3>Airliners</h3><p>A318 to A350, 707 to 757, Concorde, CRJ, Q400 and more from Immersive Vehicles, with working cockpits. Sit in the pilot seat and press O to run the start-up: batteries, APU, fuel pumps, engines. <code>/flytutorial</code> walks you through a first circuit. Small planes come from Immersive Aircraft.</p></li>
-      <li><h3>Changi Airport</h3><p>Two 4 km runways and four terminals laid out like the real Changi: check-in rows, automated immigration, the purple carpet, a hawker food court, lounges and glass holdrooms at every gate. T1 has Kinetic Rain, T2 the sunflower and orchid gardens, T3 the Butterfly Garden and T4 the Heritage Zone. The Jewel and the Skytrain link them.</p></li>
-      <li><h3>Arena and police</h3><p>PvP only happens on the pitch of the Lion City Arena, a stadium on the east side. Break the law elsewhere and the police can send you to the cells at the Police HQ.</p></li>
-      <li><h3>Trains</h3><p>Eight MTR lines. Six run on viaducts above the city streets with a train every 90 seconds, and every tower next to a line has a glass bridge from the platform straight into its sky lobby.</p></li>
-      <li><h3>Jobs and money</h3><p>Work as a pilot, courier, police officer or fisher. Buy the flat you are standing in, lock it with a keypad, trade at the shops and auction house, and keep savings at the bank.</p></li>
-      <li><h3>Phone and computers</h3><p>A phone with messages, maps, train and flight times, and an AI guide that tells you where things are. Every flat has a working computer and a TV, and there are payphones in lobbies, the mall and the airport.</p></li>
-      <li><h3>Graphics</h3><p>Shaders, realistic textures and skies are on by default. On an older PC, pick Lite in the launcher.</p></li>
-    </ul>
-  </div>
-</section>
-
-<section id="start">
-  <div class="wrap">
-    <div class="sec-head"><div class="no">02</div><div><h2>Getting started</h2><p>The SkyPlane Launcher sets up Minecraft, NeoForge, Java and every mod, keeps them up to date and joins the server.</p></div></div>
-    <ul class="rows">
-      <li><span class="step">1</span><div><h3>Run the installer</h3><p>Open <b>SkyPlane-Installer.exe</b>. It adds a SkyPlane Launcher shortcut to your desktop and Start menu. If Windows SmartScreen stops it, choose <b>More info</b>, then <b>Run anyway</b>.</p></div></li>
-      <li><span class="step">2</span><div><h3>Sign in</h3><p>Use the Microsoft account that owns Minecraft: Java Edition. The launcher shows a short code to enter on the Microsoft page it opens.</p></div></li>
-      <li><span class="step">3</span><div><h3>Press Play</h3><p>The first start downloads about 1.5 GB. After that the game opens in seconds and joins the server.</p></div></li>
-    </ul>
-    <p class="note">Two airliner packs can only be downloaded from their own pages. On the first start the launcher opens those pages; click download on each and it picks the files up from your Downloads folder.</p>
-  </div>
-</section>
-
-<section id="manual">
-  <div class="wrap">
-    <div class="sec-head"><div class="no">03</div><div><h2>Manual install</h2><p>For Prism Launcher, the Modrinth App or the official launcher with NeoForge.</p></div></div>
-    <div class="split">
-      <div>
-        <dl class="facts">
-          <dt>Minecraft</dt><dd>1.21.1</dd>
-          <dt>NeoForge</dt><dd>21.1.265</dd>
-          <dt>Server</dt><dd>skyplanesmp.trick-game.net</dd>
-          <dt>Memory</dt><dd>6 GB or more</dd>
-        </dl>
-        <div class="actions">
-          <a class="btn solid" href="downloads/SkyPlane-SMP-v9.mrpack" download>Download .mrpack</a>
-          <a class="btn" href="https://neoforged.net/" target="_blank" rel="noopener">NeoForge</a>
+      <div class="mp" aria-live="polite">
+        <h2 class="shadow">Play Multiplayer</h2>
+        <div class="serverlist">
+          <div class="entry" id="entry">
+            <img id="sicon" src="img/icon.png" alt="Server icon">
+            <div>
+              <div class="name">SkyPlane SMP</div>
+              <div class="motd" id="motd">Pinging...</div>
+            </div>
+            <div class="right">
+              <span class="count" id="count" tabindex="0"></span>
+              <span class="ping wait" id="ping" aria-label="Connection"><i></i><i></i><i></i><i></i><i></i></span>
+            </div>
+            <div class="tip" id="tip"></div>
+          </div>
         </div>
-        <p class="fine">The .mrpack has everything except the two airliner packs marked in the list, which come from their own pages. Golden Aerotransport needs a NeoForge fix that only the SkyPlane Launcher applies, so leave it out on other launchers.</p>
+        <div class="actions">
+          <button class="btn wide" id="copy" type="button">Copy server address</button>
+          <button class="btn" id="refresh" type="button">Refresh</button>
+        </div>
+        <div class="addr">Address: <b id="addr">skyplanesmp.trick-game.net</b> &nbsp;·&nbsp; Java 1.21.1 &nbsp;·&nbsp; NeoForge 21.1.265</div>
       </div>
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Mod</th><th>Side</th></tr></thead>
+    </div>
+  </div>
+
+  <section id="things">
+    <div class="wrap">
+      <div class="sec-title"><h2>Things to do</h2><p>Everything works with your phone: shift + right-click the phone, or type <span style="color:var(--yellow)">/phone</span>.</p></div>
+      <div class="grid" id="features"></div>
+    </div>
+  </section>
+
+  <section id="jobs">
+    <div class="wrap">
+      <div class="sec-title"><h2>Jobs</h2><p>Pick one in Phone &gt; Jobs. Swap whenever you like. Money buys flats, cars, planes and furniture.</p></div>
+      <div class="panel scroll">
+        <table class="tbl">
+          <thead><tr><th>Job</th><th>What you do</th><th>Pay</th></tr></thead>
           <tbody>
-            <tr><td><a href="https://modrinth.com/mod/architectury-api" target="_blank" rel="noopener">Architectury API</a></td><td>Both</td></tr>
-            <tr><td><a href="https://modrinth.com/mod/automobility" target="_blank" rel="noopener">Automobility</a></td><td>Both</td></tr>
-            <tr><td><a href="https://modrinth.com/mod/cc-tweaked" target="_blank" rel="noopener">CC: Tweaked</a></td><td>Both</td></tr>
-            <tr><td><a href="https://modrinth.com/mod/distanthorizons" target="_blank" rel="noopener">Distant Horizons</a></td><td>Client</td></tr>
-            <tr><td><a href="https://modrinth.com/resourcepack/dramatic-skys" target="_blank" rel="noopener">Dramatic Skys</a></td><td>Client</td></tr>
-            <tr><td><a href="https://modrinth.com/mod/handcrafted" target="_blank" rel="noopener">Handcrafted</a></td><td>Both</td></tr>
-            <tr><td><a href="https://modrinth.com/mod/icraft" target="_blank" rel="noopener">iCraft</a></td><td>Both</td></tr>
-            <tr><td><a href="https://modrinth.com/mod/immersive-aircraft" target="_blank" rel="noopener">Immersive Aircraft</a></td><td>Both</td></tr>
-            <tr><td><a href="https://modrinth.com/mod/immersive-vehicles" target="_blank" rel="noopener">Immersive Vehicles</a></td><td>Both</td></tr>
-            <tr><td><a href="https://modrinth.com/mod/infrastructureplus" target="_blank" rel="noopener">Infrastructure Plus</a></td><td>Both</td></tr>
-            <tr><td><a href="https://modrinth.com/mod/iris" target="_blank" rel="noopener">Iris Shaders</a></td><td>Client</td></tr>
-            <tr><td><a href="https://modrinth.com/project/MWa9H4W4" target="_blank" rel="noopener">MC Coasters</a></td><td>Both</td></tr>
-            <tr><td><a href="https://modrinth.com/mod/minecraft-transit-railway" target="_blank" rel="noopener">Minecraft Transit Railway</a></td><td>Both</td></tr>
-            <tr><td><a href="https://modrinth.com/resourcepack/patrix-32x" target="_blank" rel="noopener">Patrix 32x</a></td><td>Client</td></tr>
-            <tr><td><a href="https://modrinth.com/shader/photon-shader" target="_blank" rel="noopener">Photon Shaders</a></td><td>Client</td></tr>
-            <tr><td><a href="https://modrinth.com/mod/resourceful-lib" target="_blank" rel="noopener">Resourceful Lib</a></td><td>Both</td></tr>
-            <tr><td><a href="https://modrinth.com/mod/simple-voice-chat" target="_blank" rel="noopener">Simple Voice Chat</a></td><td>Both</td></tr>
-            <tr><td><a href="https://modrinth.com/mod/skinrestorer" target="_blank" rel="noopener">Skin Restorer</a></td><td>Both</td></tr>
-            <tr><td><a href="https://skyplane-snowy.vercel.app/downloads/mods/skyplane-1.0.0.jar" target="_blank" rel="noopener">SkyPlane SMP (our mod)</a></td><td>Both</td></tr>
-            <tr><td><a href="https://modrinth.com/mod/sodium" target="_blank" rel="noopener">Sodium</a></td><td>Client</td></tr>
-            <tr><td><a href="https://www.curseforge.com/minecraft/mc-mods/golden-airport-pack-immersive-vehicles-content/files" target="_blank" rel="noopener">Golden Aerotransport (airliners and airport vehicles)</a> <span class="tag">own page</span> <span class="tag">launcher only</span></td><td>Both</td></tr>
-            <tr><td><a href="https://www.curseforge.com/minecraft/mc-mods/immersive-flight-simulator-ifs-immersive-vehicles/files" target="_blank" rel="noopener">Immersive Flight Simulator (airliners)</a> <span class="tag">own page</span></td><td>Both</td></tr>
+            <tr><td>Pilot</td><td>Fly SkyPlane Air flights from Changi with passengers on board, or fly any plane out and back.</td><td>$400 + $120 per passenger</td></tr>
+            <tr><td>Taxi driver</td><td>Pick up residents waving for a taxi and drive them across the city. Quick rides get a tip.</td><td>$35 + 18c per metre</td></tr>
+            <tr><td>Firefighter</td><td>Fire calls come to your phone. Follow the arrow and put the fire out with your hose.</td><td>$80 + distance + speed bonus</td></tr>
+            <tr><td>Paramedic</td><td>Help residents who twisted an ankle or feel faint. Treat them with the medical kit.</td><td>$80 + distance + speed bonus</td></tr>
+            <tr><td>Police officer</td><td>Catch wanted players with your handcuffs and take them to the cells.</td><td>$120 per star</td></tr>
+            <tr><td>Courier</td><td>Deliver parcels to addresses all over Lion City. The MRT is the fast way.</td><td>$30 + 12c per metre</td></tr>
+            <tr><td>Fisher</td><td>Fish in the sea and rivers around the city, then sell your catch.</td><td>$8-40 per catch</td></tr>
           </tbody>
         </table>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="news">
-  <div class="wrap">
-    <div class="sec-head"><div class="no">04</div><div><h2>Changelog</h2></div></div>
-    <ul class="rows">
-      <li><span class="when">11 Nov 2026</span><div><h3>Lion City is open</h3><p>The whole world has been rebuilt at real size. Lion City has 150 m-wide towers up to 200+ floors, each with a grand two-storey lobby, a sky lobby linked to its own train station, three huge flats per floor and lifts to every floor. There&#x27;s also a 320 m mall, condos with pools, mansions, traffic lights at every crossing, eight train lines, Changi Airport and the Marina Bay attractions.</p></div></li>
-      <li><span class="when">11 Nov 2026</span><div><h3>Start a plane with one button</h3><p>Sit in an airliner&#x27;s pilot seat and press O (or tap the Auto start-up button). Batteries, APU, fuel pumps and engines all start for you. New to flying? Type /flytutorial for a step-by-step lesson and earn your Pilot Licence. Airliners now fly like Immersive Aircraft: Space/Shift throttle, W/S pitch, A/D turn.</p></div></li>
-      <li><span class="when">11 Nov 2026</span><div><h3>Jobs, homes, shops and lifts</h3><p>Everything from the old server is back: take a job (courier, pilot, police or fisher), buy the hotel room or flat you&#x27;re standing in, lock your door with a keypad code, shop, sell, use the auction house and the bank. Marina Bay Sands has glass lifts to all 55 floors, and every train station has a lift. Plus live Singapore weather, passport stamps, friends and the Block Band rhythm game.</p></div></li>
-      <li><span class="when">10 Nov 2026</span><div><h3>SkyPlane v9: the big rebuild</h3><p>SkyPlane is now a full modpack: realistic airliners (Immersive Vehicles with Immersive Flight Simulator and Golden Aerotransport), Immersive Aircraft, MTR trains and stations, a working phone and PCs, and realistic shaders and textures. Press Play and the launcher sets everything up.</p></div></li>
-    </ul>
-  </div>
-</section>
+  <section id="maps">
+    <div class="wrap">
+      <div class="sec-title"><h2>Maps</h2><p>Top-down views of the world, taken on the server.</p></div>
+      <div class="maps">
+        <figure class="map"><img src="img/map-lioncity.png" alt="Map of Lion City centre" loading="lazy"><figcaption>Lion City centre</figcaption></figure>
+        <figure class="map"><img src="img/map-grid.png" alt="Map of the street grid" loading="lazy"><figcaption>The street grid</figcaption></figure>
+        <figure class="map"><img src="img/map-park.png" alt="Map of the adventure park" loading="lazy"><figcaption>Adventure park</figcaption></figure>
+        <figure class="map"><img src="img/map-estate.png" alt="Map of the mansion estate" loading="lazy"><figcaption>Mansion estate</figcaption></figure>
+      </div>
+    </div>
+  </section>
 
-<section id="faq">
-  <div class="wrap">
-    <div class="sec-head"><div class="no">05</div><div><h2>FAQ</h2></div></div>
-    <details><summary>Is it free?</summary><p>Yes. You need your own copy of Minecraft: Java Edition.</p></details>
-    <details><summary>Why does Windows warn me about the installer?</summary><p>The installer is not signed with a paid certificate yet, so SmartScreen does not recognise it. Choose More info, then Run anyway. It only installs the launcher into your user folder.</p></details>
-    <details><summary>Will it run on my PC?</summary><p>Pick Lite in the launcher to turn off shaders and the long view distance, and lower the memory slider if you need to.</p></details>
-    <details><summary>Can I play on Bedrock or a phone?</summary><p>No. SkyPlane is a Java Edition modpack. Mac and Linux players can use the manual install.</p></details>
-    <details><summary>Is it suitable for kids?</summary><p>Yes. There is no gore, PvP only happens in the arena, and staff keep chat friendly.</p></details>
-    <details><summary>Where are my game files?</summary><p>In <code>%APPDATA%\.skyplane-smp</code>. The launcher's Open game folder button takes you there.</p></details>
-  </div>
-</section>
+  <section id="commands">
+    <div class="wrap">
+      <div class="sec-title"><h2>Handy commands</h2><p>Type them in chat (press T).</p></div>
+      <div class="chat chat-cols" id="cmds"></div>
+    </div>
+  </section>
+
+  <section id="start">
+    <div class="wrap">
+      <div class="sec-title"><h2>How to join</h2><p>The SkyPlane Launcher sets up Minecraft, NeoForge, Java and every mod, keeps them up to date and joins the server.</p></div>
+      <div class="steps">
+        <div class="panel"><div class="num">1</div><h3>Run the installer</h3><p>Open SkyPlane-Installer.exe. If Windows SmartScreen stops it, choose More info, then Run anyway.</p></div>
+        <div class="panel"><div class="num">2</div><h3>Sign in</h3><p>Use the Microsoft account that owns Minecraft: Java Edition. The launcher shows a short code to type on the Microsoft page.</p></div>
+        <div class="panel"><div class="num">3</div><h3>Press Play</h3><p>The first start downloads about 1.6 GB. After that the game opens in seconds and joins the server.</p></div>
+      </div>
+      <div class="actions" style="justify-content:center;margin-top:18px">
+        <a class="btn green wide" href="downloads/SkyPlane-Installer.exe" download>Download the launcher</a>
+        <a class="btn" href="https://discord.gg/bQUyRmxm3g" target="_blank" rel="noopener">Join our Discord</a>
+      </div>
+      <details style="margin-top:22px"><summary>Set it up yourself (Prism Launcher, Modrinth App)</summary>
+        <p>Minecraft 1.21.1 with NeoForge 21.1.265, 6 GB of memory or more. The .mrpack has everything except the two airliner packs marked "own page", which you download from their pages. Golden Aerotransport needs a fix only the SkyPlane Launcher applies, so leave it out on other launchers.</p>
+        <div class="actions" style="margin:12px 0"><a class="btn" href="downloads/SkyPlane-SMP-v9.mrpack" download>Download .mrpack</a><a class="btn" href="https://neoforged.net/" target="_blank" rel="noopener">NeoForge</a></div>
+        <div class="panel mods" id="mods"></div>
+      </details>
+    </div>
+  </section>
+
+  <section id="news">
+    <div class="wrap">
+      <div class="sec-title"><h2>Updates</h2><p>What's new on the server.</p></div>
+      <div class="book" id="book"><article><p>Loading...</p></article></div>
+    </div>
+  </section>
+
+  <section id="rules">
+    <div class="wrap">
+      <div class="sec-title"><h2>Server rules</h2></div>
+      <div class="chat">
+        <div class="d">1. Be kind. No bullying, swearing or mean chat.</div>
+        <div class="d">2. PvP only inside Lion City Arena.</div>
+        <div class="d">3. No griefing or stealing. Build in your own flat or out in the countryside.</div>
+        <div class="d">4. No cheats, hacked clients or x-ray.</div>
+        <div class="d">5. Keep personal info private - never share your address or passwords.</div>
+        <div class="s">Staff can mute, jail or ban players who break the rules.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap faq">
+      <div class="sec-title"><h2>FAQ</h2></div>
+      <details><summary>Is it free?</summary><p>Yes. You need your own copy of Minecraft: Java Edition.</p></details>
+      <details><summary>Is it suitable for kids?</summary><p>Yes. There's no gore, PvP only happens in the arena, emergencies are things like bin fires and twisted ankles, and staff keep chat friendly.</p></details>
+      <details><summary>Why does Windows warn me about the installer?</summary><p>The installer isn't signed with a paid certificate yet, so SmartScreen doesn't recognise it. Choose More info, then Run anyway. It only installs into your user folder.</p></details>
+      <details><summary>Will it run on my PC?</summary><p>Pick Lite in the launcher to turn off shaders and the long view distance, and lower the memory slider if you need to.</p></details>
+      <details><summary>Can I play on Bedrock or a phone?</summary><p>No. SkyPlane is a Java Edition modpack. Mac and Linux players can use the set-it-up-yourself option.</p></details>
+      <details><summary>How do I fly a plane?</summary><p>Type /flytutorial for a step-by-step lesson. In an airliner's pilot seat, press O to start everything up. Space and Shift are throttle, W/S pitch, A/D turn, R gets out.</p></details>
+      <details><summary>Where are my game files?</summary><p>In %APPDATA%\.skyplane-smp. The launcher's Open game folder button takes you there.</p></details>
+    </div>
+  </section>
+</main>
 
 <footer>
   <div class="wrap">
-    <div>SkyPlane SMP. A fan-run server, not affiliated with Mojang or Microsoft. <a href="https://discord.gg/bQUyRmxm3g" target="_blank" rel="noopener">Discord</a></div>
-    <div>Mods belong to their authors and are downloaded from their official pages.</div>
+    SkyPlane SMP is fan-run and not affiliated with Mojang or Microsoft. Mods belong to their authors and are downloaded from their official pages.<br>
+    <a href="https://discord.gg/bQUyRmxm3g" target="_blank" rel="noopener">Discord</a> · <a href="#top">Back to top</a>
   </div>
 </footer>
 
+<div class="toast" id="toast" role="status"><canvas id="toasticon" width="16" height="16" style="width:32px;height:32px;image-rendering:pixelated"></canvas><div><div class="t1">Advancement Made!</div><div class="t2">Found SkyPlane SMP</div></div></div>
+
 <script>
-  const copy = document.getElementById('copy');
-  copy.addEventListener('click', () => {
-    navigator.clipboard.writeText(document.getElementById('addr').textContent).then(() => {
-      copy.textContent = 'Copied'; setTimeout(() => copy.textContent = 'Copy', 1500);
-    });
+  const ADDR = 'skyplanesmp.trick-game.net';
+
+  // ---- 8x8 pixel icons drawn on canvases (palette letters -> colours)
+  const PAL = { k: '#1b1b1b', w: '#f0f0f0', g: '#8a8a8a', d: '#555', r: '#d83a3a', o: '#f08a24', y: '#f4d03f', b: '#3a7bd5', c: '#7fd3f7', n: '#7a4a24', l: '#5fbf3f', p: '#9b59b6', s: '#c9a27a' };
+  const ICONS = {
+    plane:  ['...ww...', '...ww...', 'wwwwwwww', '.wwwwww.', '...ww...', '...ww...', '..wwww..', '........'],
+    train:  ['.bbbbbb.', 'bccbbccb', 'bccbbccb', 'bbbbbbbb', 'byybbyyb', 'bbbbbbbb', '.k....k.', 'kkkkkkkk'],
+    tower:  ['...cc...', '..cccc..', '..cbcc..', '..cccc..', '..cbcb..', '..cccc..', '..cbcc..', '.dddddd.'],
+    car:    ['........', '..rrrr..', '.rccccr.', 'rrrrrrrr', 'rryrryrr', 'rrrrrrrr', '.kk..kk.', '........'],
+    fire:   ['...o....', '..oo..o.', '..ooo.o.', '.oyooyo.', '.oyyyyo.', 'ooyyyyoo', '.ooyyoo.', '..oooo..'],
+    heart:  ['........', '.rr..rr.', 'rrrrrrrr', 'rrrwrrrr', 'rrwwwrrr', '.rrwrrr.', '..rrrr..', '...rr...'],
+    coin:   ['..yyyy..', '.yooooy.', 'yoyyyyoy', 'yoyooyoy', 'yoyooyoy', 'yoyyyyoy', '.yooooy.', '..yyyy..'],
+    phone:  ['.kkkkkk.', '.kccck.k', '.kcccck.', '.kcccck.', '.kcccck.', '.kcccck.', '.kkwwkk.', '.kkkkkk.'],
+    sword:  ['......ww', '.....wgw', '....wgw.', '...wgw..', 'n.wgw...', '.nnw....', '.nn.....', 'n..n....'],
+    star:   ['...yy...', '...yy...', 'yyyyyyyy', '.yyyyyy.', '..yyyy..', '.yy..yy.', 'yy....yy', '........'],
+    house:  ['...rr...', '..rrrr..', '.rrrrrr.', 'rrrrrrrr', '.ssssss.', '.sbssns.', '.sbssns.', '.ssssns.'],
+    book:   ['.nnnnnn.', 'nwwwwwwn', 'nwkkkkwn', 'nwwwwwwn', 'nwkkkwwn', 'nwwwwwwn', 'nwkkkkwn', '.nnnnnn.'],
+    flag:   ['k.......', 'kwkwkwk.', 'kkwkwkw.', 'kwkwkwk.', 'kkwkwkw.', 'k.......', 'k.......', 'k.......'],
+    music:  ['....kkkk', '....kkkk', '....k..k', '....k..k', '....k..k', '.kkkk.kk', 'kkkkkkkk', '.kk..kk.']
+  };
+  function draw(cv, name) {
+    const g = cv.getContext('2d'), rows = ICONS[name], s = cv.width / 8;
+    g.clearRect(0, 0, cv.width, cv.height);
+    rows.forEach((r, y) => [...r].forEach((ch, x) => { if (PAL[ch]) { g.fillStyle = PAL[ch]; g.fillRect(x * s, y * s, s, s); } }));
+  }
+  function icon(name) { const c = document.createElement('canvas'); c.width = c.height = 16; draw(c, name); return c; }
+
+  // ---- feature cards
+  const FEATURES = [
+    ['plane', 'Fly real airliners', 'A318 to A350, 747, Concorde and more with working cockpits. Press O in the pilot seat for automatic start-up, or take /flytutorial.'],
+    ['flag', 'SkyPlane Air', 'Buy a ticket in Phone > Flights, walk to your gate at Changi, /board and fly with a real player captain. Collect a passport stamp for every country.'],
+    ['car', 'Cars and street races', 'Buy a car at the dealership, then race the Downtown Sprint or the Lion City Grand Prix on the city streets. New: Immersive Vehicles cars.'],
+    ['train', 'The MRT', 'Six train lines on viaducts above the streets, plus the Changi Skytrain. Towers have glass sky bridges straight from the platform.'],
+    ['tower', 'Lion City', 'One block is one metre. 150 m-wide towers up to 200 floors, a 320 m mall, mansions, Marina Bay Sands, Gardens by the Bay and Universal Studios.'],
+    ['house', 'Your own place', 'Buy the flat or hotel room you\'re standing in, lock the door with a keypad code, trust your friends and fill it with furniture.'],
+    ['star', 'Daily missions and rank', 'Three new missions every day with a streak bonus. Everything you do earns XP - your level shows next to your name.'],
+    ['music', 'Mini-games', 'Among Us, Hide & Seek, the elytra rings race, boat races, a reaction test and the Block Band rhythm game.'],
+    ['fire', 'Emergency jobs', 'Be a firefighter or paramedic and race across the city when a call comes in. Fast responses earn a bonus.'],
+    ['sword', 'Arena and police', 'PvP only happens inside Lion City Arena. Break the law and the police can take you to the Police HQ cells.'],
+    ['coin', 'Shops, bank and auctions', 'Sell your catch, trade with players at the auction house and keep savings at the bank.'],
+    ['phone', 'Phone and AI guide', 'Messages, maps with navigation, train and flight times, and an AI guide that tells you where to go.']
+  ];
+  const fg = document.getElementById('features');
+  for (const [ic, title, text] of FEATURES) {
+    const card = document.createElement('div'); card.className = 'panel';
+    const head = document.createElement('div'); head.className = 'card-head';
+    const slot = document.createElement('div'); slot.className = 'slot'; slot.appendChild(icon(ic));
+    const h = document.createElement('h3'); h.textContent = title;
+    head.append(slot, h);
+    const p = document.createElement('p'); p.textContent = text;
+    card.append(head, p); fg.appendChild(card);
+  }
+
+  // ---- commands in chat style
+  const CMDS = [['/phone', 'open your phone (or shift + right-click it)'], ['/missions', 'today\'s three missions'], ['/rank', 'your level and the top players'],
+    ['/flights', 'Changi departures and tickets'], ['/board', 'board your flight at the gate'], ['/flytutorial', 'learn to fly, step by step'],
+    ['/cars', 'the car dealership'], ['/race', 'street races'], ['/amongus', 'start or join Among Us'], ['/hideseek', 'start Hide & Seek here'],
+    ['/arcade', 'all the mini-games'], ['/daily', 'free daily money'], ['/bal', 'your balance'], ['/pay <name> <amount>', 'send money'],
+    ['/sell all', 'sell everything sellable'], ['@guide <question>', 'ask the AI guide in chat'], ['/rules', 'the server rules'], ['/discord', 'our Discord']];
+  const cm = document.getElementById('cmds');
+  for (const [c, d] of CMDS) { const row = document.createElement('div'); const a = document.createElement('span'); a.className = 'c'; a.textContent = c; const b = document.createElement('span'); b.className = 'd'; b.textContent = ' - ' + d; row.append(a, b); cm.appendChild(row); }
+
+  // ---- mod list (manual install)
+  const MODS = [['Minecraft Transit Railway', 'https://modrinth.com/mod/minecraft-transit-railway'], ['Immersive Vehicles', 'https://modrinth.com/mod/immersive-vehicles'],
+    ['IV Official Content Pack', 'https://modrinth.com/mod/immersive-vehicles-official-content-pack'], ['IV Official Automobile Pack', 'https://modrinth.com/mod/immersive-vehicles-official-automobile-pack'],
+    ['Immersive Aircraft', 'https://modrinth.com/mod/immersive-aircraft'], ['Automobility', 'https://modrinth.com/mod/automobility'], ['Infrastructure Plus', 'https://modrinth.com/mod/infrastructureplus'],
+    ['MC Coasters', 'https://modrinth.com/project/MWa9H4W4'], ['Handcrafted', 'https://modrinth.com/mod/handcrafted'], ['iCraft', 'https://modrinth.com/mod/icraft'], ['CC: Tweaked', 'https://modrinth.com/mod/cc-tweaked'],
+    ['Moving Elevators', 'https://modrinth.com/mod/moving-elevators'], ['Simple Voice Chat', 'https://modrinth.com/mod/simple-voice-chat'], ['Skin Restorer', 'https://modrinth.com/mod/skinrestorer'],
+    ['Architectury API', 'https://modrinth.com/mod/architectury-api'], ['Resourceful Lib', 'https://modrinth.com/mod/resourceful-lib'], ['Sodium', 'https://modrinth.com/mod/sodium', 'client'],
+    ['Iris Shaders', 'https://modrinth.com/mod/iris', 'client'], ['Distant Horizons', 'https://modrinth.com/mod/distanthorizons', 'client'], ['Photon Shaders', 'https://modrinth.com/shader/photon-shader', 'client'],
+    ['Patrix 32x', 'https://modrinth.com/resourcepack/patrix-32x', 'client'], ['Dramatic Skys', 'https://modrinth.com/resourcepack/dramatic-skys', 'client'],
+    ['SkyPlane SMP (our mod)', '/downloads/mods/skyplane-1.0.0.jar'],
+    ['Immersive Flight Simulator', 'https://www.curseforge.com/minecraft/mc-mods/immersive-flight-simulator-ifs-immersive-vehicles/files', 'own page'],
+    ['Golden Aerotransport', 'https://www.curseforge.com/minecraft/mc-mods/golden-airport-pack-immersive-vehicles-content/files', 'own page, launcher only']];
+  const ml = document.getElementById('mods');
+  for (const [n, u, t] of MODS) { const d = document.createElement('div'); const a = document.createElement('a'); a.href = u; a.textContent = n; a.target = '_blank'; a.rel = 'noopener'; d.appendChild(a); if (t) { const s = document.createElement('small'); s.textContent = ' (' + t + ')'; d.appendChild(s); } ml.appendChild(d); }
+
+  // ---- updates: the same news the launcher shows
+  const book = document.getElementById('book');
+  fetch('/launcher/pack.json', { cache: 'no-store' }).then(r => r.json()).then(p => {
+    book.textContent = '';
+    for (const n of (p.news || []).slice(0, 12)) {
+      const a = document.createElement('article');
+      const w = document.createElement('div'); w.className = 'when'; w.textContent = n.date;
+      const h = document.createElement('h3'); h.textContent = n.title;
+      const t = document.createElement('p'); t.textContent = n.text;
+      a.append(w, h, t); book.appendChild(a);
+    }
+  }).catch(() => { book.querySelector('p').textContent = 'Updates are in the launcher and on our Discord.'; });
+
+  // ---- the server, as the Multiplayer screen shows it
+  const COLORS = { '0': '#000000', '1': '#0000aa', '2': '#00aa00', '3': '#00aaaa', '4': '#aa0000', '5': '#aa00aa', '6': '#ffaa00', '7': '#aaaaaa', '8': '#555555', '9': '#5555ff', a: '#55ff55', b: '#55ffff', c: '#ff5555', d: '#ff55ff', e: '#ffff55', f: '#ffffff' };
+  function motdInto(el, raw) {                                     // renders §-coded text safely (no HTML from the API)
+    el.textContent = '';
+    let color = '#aaaaaa', bold = false;
+    for (const part of String(raw).split(/(§[0-9a-fk-or])/i)) {
+      const m = /^§([0-9a-fk-or])$/i.exec(part);
+      if (m) { const c = m[1].toLowerCase(); if (COLORS[c]) { color = COLORS[c]; bold = false; } else if (c === 'l') bold = true; else if (c === 'r') { color = '#aaaaaa'; bold = false; } continue; }
+      if (!part) continue;
+      const s = document.createElement('span'); s.textContent = part; s.style.color = color; if (bold) s.style.fontWeight = '700'; el.appendChild(s);
+    }
+  }
+  const FALLBACK_MOTD = '§b§lSkyPlane SMP §8| §eLion City §7· §aAirlines §7· §6Jobs\n§fFly, drive, work and play §7- kid-friendly city life';
+  const motd = document.getElementById('motd'), count = document.getElementById('count'), ping = document.getElementById('ping'), tip = document.getElementById('tip');
+  function setPing(state) { ping.className = 'ping ' + state; ping.innerHTML = state === 'bad' ? '<span class="xmark">✕</span>' : '<i></i><i></i><i></i><i></i><i></i>'; }
+  function check() {
+    setPing('wait'); motd.textContent = 'Pinging...'; motd.style.color = ''; count.textContent = ''; tip.className = 'tip';
+    fetch('https://api.mcsrvstat.us/3/' + ADDR, { cache: 'no-store' }).then(r => r.json()).then(d => {
+      if (d && d.online) {
+        const raw = d.motd && d.motd.raw ? d.motd.raw.join('\n') : FALLBACK_MOTD;
+        motdInto(motd, raw.trim() === 'A Minecraft Server' ? FALLBACK_MOTD : raw);
+        const on = d.players ? d.players.online : 0, max = d.players ? d.players.max : 0;
+        count.textContent = on + '/' + max;
+        const names = d.players && d.players.list ? d.players.list.map(p => p.name || p) : [];
+        if (names.length) { tip.textContent = names.slice(0, 12).join('\n') + (on > 12 ? '\n... and ' + (on - 12) + ' more' : ''); tip.style.whiteSpace = 'pre-line'; tip.className = 'tip on'; count.classList.add('has'); }
+        else count.classList.remove('has');
+        if (d.icon && /^data:image\/png;base64,/.test(d.icon)) document.getElementById('sicon').src = d.icon;
+        setPing('ok');
+      } else {
+        motd.textContent = "Can't connect to server"; motd.style.color = '#aa0000';
+        count.textContent = ''; setPing('bad');
+        tip.textContent = 'The server is offline right now. Check back soon!'; tip.className = 'tip on';
+      }
+    }).catch(() => { motd.textContent = "Can't reach the server list right now"; motd.style.color = '#aa0000'; setPing('bad'); });
+  }
+  check(); setInterval(check, 60000);
+  document.getElementById('refresh').addEventListener('click', check);
+  const copyBtn = document.getElementById('copy');
+  copyBtn.addEventListener('click', () => {
+    (navigator.clipboard ? navigator.clipboard.writeText(ADDR) : Promise.reject()).then(() => { copyBtn.textContent = 'Copied!'; }, () => { copyBtn.textContent = ADDR; })
+      .finally(() => setTimeout(() => copyBtn.textContent = 'Copy server address', 1800));
   });
-  const clock = () => document.getElementById('clock').textContent =
-    new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Singapore' }) + ' SGT';
-  clock(); setInterval(clock, 30000);
-  const st = document.getElementById('status');
-  fetch('https://api.mcsrvstat.us/3/skyplanesmp.trick-game.net').then(r => r.json()).then(d => {
-    if (d && d.online) { st.className = 'on'; st.textContent = `Online, ${d.players ? d.players.online : 0}/${d.players ? d.players.max : 0} players`; }
-    else { st.className = 'off'; st.textContent = 'Offline'; }
-  }).catch(() => { st.textContent = 'Unknown'; });
+
+  // ---- splash text + advancement toast
+  const SPLASHES = ['Now with cars!', 'Fly SkyPlane Air!', 'Among us!', 'Real size!', '200 floors!', 'Kid friendly!', 'Mind the gap!', 'Also try the MRT!', 'Fire calls!', 'Level up!'];
+  document.getElementById('splash').textContent = SPLASHES[Math.floor(Math.random() * SPLASHES.length)];
+  draw(document.getElementById('toasticon'), 'star');
+  let seen = false; try { seen = localStorage.getItem('skyplane-toast') === '1'; } catch (e) { }
+  if (!seen) {
+    const t = document.getElementById('toast');
+    setTimeout(() => t.classList.add('show'), 900);
+    setTimeout(() => t.classList.remove('show'), 5200);
+    try { localStorage.setItem('skyplane-toast', '1'); } catch (e) { }
+  }
 </script>
 </body>
 </html>
